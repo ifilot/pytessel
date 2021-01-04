@@ -55,7 +55,7 @@ setup(
     description="Python package for building isosurfaces from 3D scalar fields",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/ifilot/pyqint",
+    url="https://github.com/ifilot/pytessel",
     ext_modules=cythonize(ext_modules[0],
                           language_level = "3",
                           build_dir="build"),
