@@ -1,6 +1,6 @@
 package:
-  name: "pyqint"
-  version: "0.7.0"
+  name: "pytessel"
+  version: "0.1.1"
 
 source:
   path: .
@@ -16,27 +16,23 @@ requirements:
     - setuptools
     - cython
     - numpy
-    - tqdm
 
   run:
     - python
     - numpy
-    - tqdm
 
 test:
   requires:
     - numpy
     - setuptools
-    - tqdm
     - nose
   source_files:
     - tests/*.py
-    - tests/results/*.npy
   commands:
     - nosetests tests
 
 about:
-  home: https://github.com/ifilot/pyqint
+  home: https://github.com/ifilot/pytessel
   license: GPL3
   license_family: GPL
   summary: Python package for evaluating integrals of Gaussian type orbitals in electronic structure calculations

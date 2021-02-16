@@ -22,8 +22,8 @@ if os.name == 'nt':
     os.environ['LIB'] += r";C:\Program Files (x86)\Windows Kits\10\Lib\%s\ucrt\x64" % winkit_ver
 
     # also specify some custom paths for libraries
-    os.environ['INCLUDE'] += r";D:\PROGRAMMING\LIBS\boost-1.74.0-win-x64\include"   # boost library
-    os.environ['INCLUDE'] += r";D:\PROGRAMMING\LIBS\eigen-3.3.9"                    # eigen3 linear algebra library
+    os.environ['INCLUDE'] += r";D:\PROGRAMMING\LIBS\boost-1.74.0-win-x64\include"
+    os.environ['INCLUDE'] += r";D:\PROGRAMMING\LIBS\glm-0.9.9.8\glm"
 
 if os.name == "posix":
     os.environ['CFLAGS'] = '-I/usr/include/glm'
@@ -49,7 +49,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='pytessel',
-    version="0.1.0",
+    version="0.1.1",
     author="Ivo Filot",
     author_email="ivo@ivofilot.nl",
     description="Python package for building isosurfaces from 3D scalar fields",

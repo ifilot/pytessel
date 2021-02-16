@@ -22,6 +22,7 @@
 
 #include <string>
 #include <vector>
+#include <array>
 #include <glm/glm.hpp>
 
 #include "float_parser.h"
