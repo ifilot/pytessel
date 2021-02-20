@@ -35,5 +35,5 @@ about:
   home: https://github.com/ifilot/pytessel
   license: GPL3
   license_family: GPL
-  summary: Python package for evaluating integrals of Gaussian type orbitals in electronic structure calculations
+  summary: Python package for building isosurfaces from 3D scalar fields
   description: See the package README.md for more information.
