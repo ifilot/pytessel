@@ -32,11 +32,9 @@
 #include "isosurface.h"
 
 // add SGN function for Windows
-#ifdef _WIN32
 template <typename T> float sgn(T val) {
     return (T(0) < val) - (val < T(0));
 }
-#endif
 
 /**
  * @brief      structure to put glm::vec3 in a map
