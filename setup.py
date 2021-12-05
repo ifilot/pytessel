@@ -2,6 +2,7 @@ import subprocess
 from setuptools import Extension, setup
 from Cython.Build import cythonize
 import os
+import sys
 
 # specify paths on Windows to find compiler and libraries
 if os.name == 'nt':
@@ -25,14 +26,18 @@ if os.name == 'nt':
     os.environ['INCLUDE'] += r";D:\PROGRAMMING\LIBS\boost-1.74.0-win-x64\include"
     os.environ['INCLUDE'] += r";D:\PROGRAMMING\LIBS\glm-0.9.9.8\glm"
 
-if os.name == "posix":
+if os.name == 'posix' and sys.platform != 'darwin':
     os.environ['CFLAGS'] = '-I/usr/include/glm'
-
-if os.name == 'posix':
     extra_compile_args = ["-Wno-date-time", "-fopenmp", "-fPIC"]
     extra_link_args = ["-fopenmp"]
 elif os.name == 'nt':
     extra_compile_args = []
+    extra_link_args = []
+elif sys.platform == 'darwin':
+    os.environ['CC'] = "/usr/local/Cellar/gcc/11.2.0_3/bin/gcc-11"
+    os.environ['CXX'] = "/usr/local/Cellar/gcc/11.2.0_3/bin/c++-11"
+    os.environ['CFLAGS'] = '-I/usr/local/Cellar/boost/1.76.0/include -I/usr/local/Cellar/glm/0.9.9.8/include'
+    extra_compile_args = ["-Wno-date-time", "-fPIC"]
     extra_link_args = []
 
 ext_modules = [
