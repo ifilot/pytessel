@@ -1,6 +1,6 @@
 package:
   name: "pytessel"
-  version: "0.1.2.2"
+  version: "0.1.2.3"
 
 source:
   path: .
@@ -9,6 +9,7 @@ requirements:
   build:
     - numpy
     - tqdm
+    - python {{ python }}
 
   host:
     - pip
