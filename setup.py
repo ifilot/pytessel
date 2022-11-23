@@ -22,11 +22,6 @@ def find_windows_versions():
 
 # specify paths on Windows to find compiler and libraries
 if os.name == 'nt':
-    # set path to cl executable
-    # msvc_ver = "14.29.30133"
-    # winkit_ver = "10.0.19041.0"
-    # msvc_ver = "14.28.29333"
-    # winkit_ver = "10.0.18362.0"
     msvc_ver, winkit_ver = find_windows_versions()
     os.environ['PATH'] += r";C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\%s\bin\Hostx64\x64" % msvc_ver
     os.environ['PATH'] += r";C:\Program Files (x86)\Windows Kits\10\bin\%s\x64" % winkit_ver
