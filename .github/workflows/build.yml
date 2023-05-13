@@ -25,6 +25,6 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v3
     - name: Build
-      run: /bin/bash ./deploy/docker_setup_github.sh
+      run: ./deploy/docker_setup_github.sh
     - name: Test
-      run: /bin/bash ./deploy/docker_test_github.sh
+      run: ./deploy/docker_test_github.sh
