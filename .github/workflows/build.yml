@@ -19,11 +19,10 @@ jobs:
         yum -y install mlocate
         yum -y install gcc
         ls -alh /opt/python/cp*
-        /opt/python/cp35-cp35m/bin/python -m pip install numpy tqdm cython nose
-        /opt/python/cp36-cp36m/bin/python -m pip install numpy tqdm cython nose
-        /opt/python/cp37-cp37m/bin/python -m pip install numpy tqdm cython nose
-        /opt/python/cp38-cp38/bin/python -m pip install numpy tqdm cython nose
-        /opt/python/cp39-cp39/bin/python -m pip install numpy tqdm cython nose
+        /opt/python/cp36-cp36m/bin/python -m pip install numpy tqdm cython pytest
+        /opt/python/cp37-cp37m/bin/python -m pip install numpy tqdm cython pytest
+        /opt/python/cp38-cp38/bin/python -m pip install numpy tqdm cython pytest
+        /opt/python/cp39-cp39/bin/python -m pip install numpy tqdm cython pytest
     - uses: actions/checkout@v3
     - name: Configure CMake
       run: ./docker_setup.sh
