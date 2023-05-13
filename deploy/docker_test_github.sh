@@ -6,5 +6,5 @@ set -e -u -x
 for PYBIN in /opt/python/cp3[7,8,9]*/bin; do
     "${PYBIN}/python" -m pip install numpy nose
     "${PYBIN}/pip" install pytessel --no-index -f /io/wheelhouse
-    (cd "$HOME"; "${PYBIN}/nosetests" --verbose /io/tests/*.py)
+    (cd "$HOME"; "${PYBIN}/nosetests" --verbose ./tests/*.py)
 done
