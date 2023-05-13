@@ -19,13 +19,12 @@ jobs:
         yum -y install mlocate
         yum -y install gcc
         ls -alh /opt/python/cp*
-        /opt/python/cp36-cp36m/bin/python -m pip install numpy tqdm cython pytest
         /opt/python/cp37-cp37m/bin/python -m pip install numpy tqdm cython pytest
         /opt/python/cp38-cp38/bin/python -m pip install numpy tqdm cython pytest
         /opt/python/cp39-cp39/bin/python -m pip install numpy tqdm cython pytest
     - name: Checkout repo
       uses: actions/checkout@v3
     - name: Build
-      run: ./deploy/docker_setup_github.sh
+      run: /bin/bash ./deploy/docker_setup_github.sh
     - name: Test
-      run: ./deploy/docker_test_github.sh
+      run: /bin/bash ./deploy/docker_test_github.sh

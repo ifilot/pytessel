@@ -7,7 +7,7 @@ function repair_wheel {
     if ! auditwheel show "$wheel"; then
         echo "Skipping non-platform wheel $wheel"
     else
-        auditwheel repair "$wheel" -w /io/wheelhouse/
+        auditwheel repair "$wheel" -w ./wheelhouse/
     fi
 }
 
