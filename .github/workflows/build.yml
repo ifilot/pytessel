@@ -25,9 +25,7 @@ jobs:
         /opt/python/cp39-cp39/bin/python -m pip install numpy tqdm cython pytest
     - name: Checkout repo
       uses: actions/checkout@v3
-      with:
-        path: /io
     - name: Build
-      run: ./docker_setup.sh
+      run: ./deploy/docker_setup_github.sh
     - name: Test
-      run: ./docker_test.sh
+      run: ./deploy/docker_test_github.sh
