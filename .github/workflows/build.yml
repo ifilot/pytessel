@@ -18,6 +18,7 @@ jobs:
         yum -y install eigen3-devel boost-devel libgomp glm-devel
         yum -y install mlocate
         yum -y install gcc
+        ls -alh /opt/python/cp*
         /opt/python/cp35-cp35m/bin/python -m pip install numpy tqdm cython nose
         /opt/python/cp36-cp36m/bin/python -m pip install numpy tqdm cython nose
         /opt/python/cp37-cp37m/bin/python -m pip install numpy tqdm cython nose
