@@ -14,14 +14,15 @@ jobs:
 
     steps:
     - name: Install dependencies
-      run: yum -y install eigen3-devel boost-devel libgomp glm-devel
-      run: yum -y install mlocate
-      run: yum -y install gcc
-      run: /opt/python/cp35-cp35m/bin/python -m pip install numpy tqdm cython nose
-      run: /opt/python/cp36-cp36m/bin/python -m pip install numpy tqdm cython nose
-      run: /opt/python/cp37-cp37m/bin/python -m pip install numpy tqdm cython nose
-      run: /opt/python/cp38-cp38/bin/python -m pip install numpy tqdm cython nose
-      run: /opt/python/cp39-cp39/bin/python -m pip install numpy tqdm cython nose
+      run: | 
+        yum -y install eigen3-devel boost-devel libgomp glm-devel
+        yum -y install mlocate
+        yum -y install gcc
+        /opt/python/cp35-cp35m/bin/python -m pip install numpy tqdm cython nose
+        /opt/python/cp36-cp36m/bin/python -m pip install numpy tqdm cython nose
+        /opt/python/cp37-cp37m/bin/python -m pip install numpy tqdm cython nose
+        /opt/python/cp38-cp38/bin/python -m pip install numpy tqdm cython nose
+        /opt/python/cp39-cp39/bin/python -m pip install numpy tqdm cython nose
     - uses: actions/checkout@v3
     - name: Configure CMake
       run: ./docker_setup.sh
