@@ -1,0 +1,30 @@
+name: build
+
+on:
+  push:
+    branches: [ "master", "develop" ]
+  pull_request:
+    branches: [ "master", "develop" ]
+
+jobs:
+  build-manylinux2014_x86_64:
+
+    runs-on: ubuntu-latest
+    container: quay.io/pypa/manylinux2014_x86_64
+
+    steps:
+    - name: Install dependencies
+      run: |
+        yum -y install eigen3-devel boost-devel libgomp glm-devel
+        yum -y install mlocate
+        yum -y install gcc
+        ls -alh /opt/python/cp*
+        /opt/python/cp37-cp37m/bin/python -m pip install numpy tqdm cython pytest
+        /opt/python/cp38-cp38/bin/python -m pip install numpy tqdm cython pytest
+        /opt/python/cp39-cp39/bin/python -m pip install numpy tqdm cython pytest
+    - name: Checkout repo
+      uses: actions/checkout@v3
+    - name: Build
+      run: ./deploy/docker_setup_github.sh
+    - name: Test
+      run: ./deploy/docker_test_github.sh
