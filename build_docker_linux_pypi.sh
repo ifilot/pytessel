@@ -7,7 +7,7 @@ rm -rvf *.egg-info
 
 # set path to root
 ROOT='//d//PROGRAMMING//PYTHON//pyqint'
-IMAGE='pyqint-pypi'
+IMAGE='pytessel2014'
 
 # run compilation inside Docker
 winpty docker run -i -t -v $ROOT://io -w //io $IMAGE .//docker//docker_run_pypi.sh

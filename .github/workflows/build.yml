@@ -7,14 +7,14 @@ on:
     branches: [ "master", "develop" ]
 
 jobs:
-  build:
+  build-manylinux2014_x86_64:
 
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
 
     steps:
     - name: Install dependencies
-      run: | 
+      run: |
         yum -y install eigen3-devel boost-devel libgomp glm-devel
         yum -y install mlocate
         yum -y install gcc
