@@ -1,0 +1,29 @@
+name: build
+
+on:
+  push:
+    branches: [ "master", "develop" ]
+  pull_request:
+    branches: [ "master", "develop" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    container: quay.io/pypa/manylinux2014_x86_64
+
+    steps:
+    - name: Install dependencies
+      run: yum -y install eigen3-devel boost-devel libgomp glm-devel
+      run: yum -y install mlocate
+      run: yum -y install gcc
+      run: /opt/python/cp35-cp35m/bin/python -m pip install numpy tqdm cython nose
+      run: /opt/python/cp36-cp36m/bin/python -m pip install numpy tqdm cython nose
+      run: /opt/python/cp37-cp37m/bin/python -m pip install numpy tqdm cython nose
+      run: /opt/python/cp38-cp38/bin/python -m pip install numpy tqdm cython nose
+      run: /opt/python/cp39-cp39/bin/python -m pip install numpy tqdm cython nose
+    - uses: actions/checkout@v3
+    - name: Configure CMake
+      run: ./docker_setup.sh
+    - name: Building and testing
+      run: ./docker_test.sh

@@ -7,7 +7,6 @@ source:
 
 requirements:
   build:
-    - numpy >=1.17
     - python {{ python }}
 
   host:
@@ -25,11 +24,11 @@ test:
   requires:
     - numpy >=1.17
     - setuptools
-    - nose >=1.3.7
+    - pytest
   source_files:
     - tests/*.py
   commands:
-    - nosetests tests
+    - pytest tests/*.py
 
 about:
   home: https://github.com/ifilot/pytessel
