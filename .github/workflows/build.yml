@@ -23,8 +23,11 @@ jobs:
         /opt/python/cp37-cp37m/bin/python -m pip install numpy tqdm cython pytest
         /opt/python/cp38-cp38/bin/python -m pip install numpy tqdm cython pytest
         /opt/python/cp39-cp39/bin/python -m pip install numpy tqdm cython pytest
-    - uses: actions/checkout@v3
-    - name: Configure CMake
+    - name: Checkout repo
+      uses: actions/checkout@v3
+      with:
+        dir: /io
+    - name: Build
       run: ./docker_setup.sh
-    - name: Building and testing
+    - name: Test
       run: ./docker_test.sh
