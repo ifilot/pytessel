@@ -10,7 +10,7 @@ ROOT='//d//PROGRAMMING//PYTHON//pytessel'
 IMAGE='pytessel2014'
 
 # run compilation inside Docker
-winpty docker run -i -t -v $ROOT://io -w //io $IMAGE .//deploy//docker_setup.sh
+winpty docker run -i -t -v $ROOT://io -w //io $IMAGE .//deploy//docker_setup_local.sh
 
 # test
-winpty docker run -i -t -v $ROOT://io -w //io $IMAGE .//deploy//docker_test.sh
+winpty docker run -i -t -v $ROOT://io -w //io $IMAGE .//deploy//docker_test_local.sh
