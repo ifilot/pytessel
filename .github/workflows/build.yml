@@ -66,6 +66,6 @@ jobs:
         shell: bash -l {0}
         run: |
           echo $PATH
-          echo $INCLUDE
-          echo $LIB
+          PATH=$(echo "$PATH" | sed -e 's/C\:\\\\Program Files\\\\Git\\\\usr\\\\bin//')
+          echo $PATH
           conda build .

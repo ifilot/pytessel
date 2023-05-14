@@ -59,7 +59,7 @@ if os.name == 'posix' and sys.platform != 'darwin':
     extra_compile_args = ["-Wno-date-time", "-fopenmp", "-fPIC"]
     extra_link_args = ["-fopenmp"]
 elif os.name == 'nt':
-    extra_compile_args = []
+    extra_compile_args = ["/wd4244"]
     extra_link_args = []
 elif sys.platform == 'darwin':
     # NOTE: THIS HAS NOT BEEN ADAPTED FOR GITHUB ACTIONS
@@ -83,7 +83,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='pytessel',
-    version="0.1.2.3",
+    version="0.1.3.0",
     author="Ivo Filot",
     author_email="ivo@ivofilot.nl",
     description="Python package for building isosurfaces from 3D scalar fields",
