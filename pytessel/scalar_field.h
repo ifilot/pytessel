@@ -23,6 +23,7 @@
 #include <string>
 #include <vector>
 #include <array>
+#include <algorithm>
 #include <glm/glm.hpp>
 
 class ScalarField{
