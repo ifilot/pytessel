@@ -62,7 +62,7 @@ if os.name == 'nt':
                 newpaths = [path] + newpaths
             else:
                 newpaths.append(path)
-        os.environ['PATH'] = newpaths
+        os.environ['PATH'] = ";".join(newpaths)
 
 
 if os.name == 'posix' and sys.platform != 'darwin':
