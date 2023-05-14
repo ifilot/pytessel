@@ -80,11 +80,12 @@ jobs:
         shell: bash -l {0}
         run: |
           7z x glm-0.9.9.8.zip
+          delete glm-0.9.9.8.zip
       - name: Build
         shell: bash -l {0}
         run: |
           echo $PATH
-          conda build .
+          conda build . --no-include-recipe
       - name: Archive packages
         uses: actions/upload-artifact@v3
         with:
