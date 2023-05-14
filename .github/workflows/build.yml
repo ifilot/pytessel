@@ -21,6 +21,8 @@ jobs:
         /opt/python/cp37-cp37m/bin/python -m pip install numpy tqdm cython pytest
         /opt/python/cp38-cp38/bin/python -m pip install numpy tqdm cython pytest
         /opt/python/cp39-cp39/bin/python -m pip install numpy tqdm cython pytest
+        /opt/python/cp310-cp310/bin/python -m pip install numpy tqdm cython pytest
+        /opt/python/cp311-cp311/bin/python -m pip install numpy tqdm cython pytest
     - name: Checkout repo
       uses: actions/checkout@v3
     - name: Build
@@ -43,4 +45,4 @@ jobs:
         run: |
           conda info
           conda list
-          conda build
+          conda build .
