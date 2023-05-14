@@ -50,6 +50,7 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: wheels
+        path: wheelhouse
     - name: Publish package distributions to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
@@ -80,7 +81,6 @@ jobs:
         shell: bash -l {0}
         run: |
           7z x glm-0.9.9.8.zip
-          delete glm-0.9.9.8.zip
       - name: Build
         shell: bash -l {0}
         run: |
