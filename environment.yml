@@ -1,0 +1,5 @@
+name: pytessel
+dependencies:
+  - numpy
+  - conda-build
+  - conda-verify

@@ -23,9 +23,8 @@
 #include <string>
 #include <vector>
 #include <array>
+#include <algorithm>
 #include <glm/glm.hpp>
-
-#include "float_parser.h"
 
 class ScalarField{
 private:
