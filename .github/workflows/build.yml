@@ -98,18 +98,23 @@ jobs:
     needs: build-windows
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
+    - name: Set-up miniconda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: test
+          environment-file: environment.yml
+          python-version: 3.8
+          auto-activate-base: false
     - name: Retrieve packages
       uses: actions/download-artifact@v3
       with:
         name: anaconda-packages
         path: packages
     - name: publish-to-conda
-      uses: fcakyon/conda-publish-action@v1.3
-      with:
-        subdir: 'packages'
-        anacondatoken: ${{ secrets.ANACONDA_TOKEN }}
-        platforms: 'win'
-
+      shell: bash -l {0}
+      env:
+        INPUT_ANACONDATOKEN: ${{ secrets.ANACONDA_TOKEN }}
+      run: |
+        export ANACONDA_API_TOKEN=$INPUT_ANACONDATOKEN
+        anaconda upload packages/*.tar.bz2
 
