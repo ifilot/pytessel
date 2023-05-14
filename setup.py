@@ -6,11 +6,15 @@ import sys
 
 def find_windows_versions():
     """
-    Autofind the msvc and winkit versions
+    Autofind the msvc and winkit versions; this is mainly used for local development / compilation
     """
     root = os.path.join('C:', os.sep,'Program Files', 'Microsoft Visual Studio', '2022', 'Community', 'VC', 'Tools', 'MSVC')
+
+    # for Gitlab actions, the above folder does not exist and this is communicated
+    # back by providing None as the result
     if not os.path.exists(root):
         return None, None
+
     for file in os.listdir(root):
         if os.path.isdir(os.path.join(root, file)):
             msvcver = file
@@ -27,6 +31,8 @@ if os.name == 'nt':
     msvc_ver, winkit_ver = find_windows_versions()
 
     if msvc_ver and winkit_ver:
+        # only proceed with setting the paths for local development, i.e. when the
+        # msvc_ver and winkit_ver variables are *not* None
         os.environ['PATH'] += r";C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\%s\bin\Hostx64\x64" % msvc_ver
         os.environ['PATH'] += r";C:\Program Files (x86)\Windows Kits\10\bin\%s\x64" % winkit_ver
 
@@ -44,7 +50,8 @@ if os.name == 'nt':
         os.environ['INCLUDE'] += r";D:\PROGRAMMING\LIBS\boost-1.74.0-win-x64\include"   # boost library
         os.environ['INCLUDE'] += r";D:\PROGRAMMING\LIBS\glm-0.9.9.8"                    # glm library
     else:
-        # add include paths for Github actions
+        # if msvc_ver and winkit_ver are set to None, this means we are working on Gitlab Actions
+        # which requires the paths to be set differently
         os.environ['INCLUDE'] += r";" + os.environ['GITHUB_WORKSPACE'] + r"\glm-0.9.9.8"
 
 if os.name == 'posix' and sys.platform != 'darwin':
@@ -55,6 +62,7 @@ elif os.name == 'nt':
     extra_compile_args = []
     extra_link_args = []
 elif sys.platform == 'darwin':
+    # NOTE: THIS HAS NOT BEEN ADAPTED FOR GITHUB ACTIONS
     # os.environ['CC'] = "/usr/local/Cellar/gcc/11.2.0_3/bin/gcc-11"
     # os.environ['CXX'] = "/usr/local/Cellar/gcc/11.2.0_3/bin/c++-11"
     os.environ['CFLAGS'] = '-I/usr/local/Cellar/boost/1.76.0/include -I/usr/local/Cellar/glm/0.9.9.8/include'

@@ -52,13 +52,17 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
-      - name: Install dependencies
+      - name: Install Boost
         shell: bash -l {0}
         run: |
           choco install boost-msvc-14.3
           choco list --local-only --exact boost-msvc-14.3 --trace
-          wget https://github.com/g-truc/glm/archive/refs/tags/0.9.9.8.tar.gz
-          tar -xvzf glm-0.9.9.8.tar.gz
+      - name: Install GLM
+        uses: suisei-cn/actions-download-file@v1.4.0
+        with:
+          url: "https://github.com/g-truc/glm/releases/download/0.9.9.8/glm-0.9.9.8.zip"
+      - name: Unzip GLM
+        run: 7z x glm-0.9.9.8.zip
       - name: Build
         shell: bash -l {0}
         run: |
