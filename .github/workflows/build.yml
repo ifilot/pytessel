@@ -52,12 +52,16 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
-      - name: Install GLM
+      - name: Download GLM
         uses: suisei-cn/actions-download-file@v1.4.0
         with:
           url: "https://github.com/g-truc/glm/releases/download/0.9.9.8/glm-0.9.9.8.zip"
       - name: Unzip GLM
-        run: 7z x glm-0.9.9.8.zip
+        shell: bash -l {0}
+        run: |
+          7z x glm-0.9.9.8.zip
+          pwd
+          ls -alh
       - name: Build
         shell: bash -l {0}
         run: |
