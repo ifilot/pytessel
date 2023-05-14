@@ -12,7 +12,7 @@ function repair_wheel {
 }
 
 # Compile wheels
-for PYBIN in /opt/python/cp3[7,8,9,10,11]-*/bin; do
+for PYBIN in /opt/python/cp3{7,8,9,10,11}-*/bin; do
     "${PYBIN}/python" setup.py bdist_wheel
 done
 
