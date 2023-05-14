@@ -25,11 +25,11 @@ test:
   requires:
     - numpy >=1.17
     - setuptools
-    - pytest
+    - nose
   source_files:
     - tests/*.py
   commands:
-    - pytest
+    - nosetests tests
 
 about:
   home: https://github.com/ifilot/pytessel
