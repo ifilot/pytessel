@@ -8,7 +8,6 @@ source:
 requirements:
   build:
     - numpy
-    - {{compiler('cxx')}}
     - python {{ python }}
 
   host:
