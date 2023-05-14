@@ -37,7 +37,7 @@ jobs:
 
   pypi-publish:
     name: Upload release to PyPI
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && github.ref == 'refs/heads/master'
     needs: build-linux
     runs-on: ubuntu-latest
     environment:
