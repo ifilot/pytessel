@@ -30,7 +30,7 @@ test:
   source_files:
     - tests/*.py
   commands:
-    - pytest tests\*.py
+    - pytest
 
 about:
   home: https://github.com/ifilot/pytessel
