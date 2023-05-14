@@ -54,7 +54,9 @@ if os.name == 'nt':
         # a different root path than the glm-0.9.9.8.tar.gz file.
         os.environ['INCLUDE'] += r";" + os.environ['GITHUB_WORKSPACE'] + r"\glm"
 
-        # re-order paths to ensure that the MSVC toolchain is in front
+        # re-order paths to ensure that the MSVC toolchain is in front; this needs to be done
+        # because the Git bin folder precedes the MSVC bin folder, resulting in the wrong link.exe
+        # executable to be used in the linking step
         paths = os.environ['PATH'].split(";")
         newpaths = []
         for path in paths:
