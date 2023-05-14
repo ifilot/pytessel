@@ -44,7 +44,8 @@ if os.name == 'nt':
         os.environ['INCLUDE'] += r";D:\PROGRAMMING\LIBS\boost-1.74.0-win-x64\include"   # boost library
         os.environ['INCLUDE'] += r";D:\PROGRAMMING\LIBS\glm-0.9.9.8"                    # glm library
     else:
-        print("Cannot autofind Windows compiler.")
+        # add include paths for Github actions
+        os.environ['INCLUDE'] += r";" + os.environ['GITHUB_WORKSPACE'] + r"\glm-0.9.9.8"
 
 if os.name == 'posix' and sys.platform != 'darwin':
     os.environ['CFLAGS'] = '-I/usr/include/glm'
