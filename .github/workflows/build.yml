@@ -66,6 +66,4 @@ jobs:
         shell: bash -l {0}
         run: |
           echo $PATH
-          PATH=$(echo "$PATH" | sed -e 's/C\:\\\\Program Files\\\\Git\\\\usr\\\\bin//')
-          echo $PATH
           conda build .

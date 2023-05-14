@@ -54,6 +54,17 @@ if os.name == 'nt':
         # a different root path than the glm-0.9.9.8.tar.gz file.
         os.environ['INCLUDE'] += r";" + os.environ['GITHUB_WORKSPACE'] + r"\glm"
 
+        # re-order paths to ensure that the MSVC toolchain is in front
+        paths = os.environ['PATH'].split(";")
+        newpaths = []
+        for path in paths:
+            if "Microsoft Visual Studio" in path:
+                newpaths = [path] + newpaths
+            else:
+                newpaths.append(path)
+        os.environ['PATH'] = newpaths
+
+
 if os.name == 'posix' and sys.platform != 'darwin':
     os.environ['CFLAGS'] = '-I/usr/include/glm'
     extra_compile_args = ["-Wno-date-time", "-fopenmp", "-fPIC"]
