@@ -30,10 +30,10 @@ jobs:
     - name: Test
       run: ./deploy/docker_test_github.sh
     - name: Archive wheels
-        uses: actions/upload-artifact@v3
-        with:
-          name: wheels
-          path: wheelhouse/pytessel-*.whl
+      uses: actions/upload-artifact@v3
+      with:
+        name: wheels
+        path: wheelhouse/pytessel-*.whl
 
   build-windows:
     runs-on: windows-latest
