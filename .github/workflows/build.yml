@@ -7,8 +7,7 @@ on:
     branches: [ "master", "develop" ]
 
 jobs:
-  build-manylinux2014_x86_64:
-
+  build-linux:
     runs-on: ubuntu-latest
     container: quay.io/pypa/manylinux2014_x86_64
 
@@ -28,3 +27,20 @@ jobs:
       run: ./deploy/docker_setup_github.sh
     - name: Test
       run: ./deploy/docker_test_github.sh
+
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: test
+          environment-file: environment.yml
+          python-version: 3.8
+          auto-activate-base: false
+      - shell: bash -l {0}
+        run: |
+          conda info
+          conda list
+          conda build

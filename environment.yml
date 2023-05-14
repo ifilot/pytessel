@@ -1,0 +1,4 @@
+name: pytessel
+dependencies:
+  - numpy
+  - conda-build
