@@ -25,8 +25,6 @@
 #include <array>
 #include <glm/glm.hpp>
 
-#include "float_parser.h"
-
 class ScalarField{
 private:
     std::array<unsigned int, 3> grid_dimensions;

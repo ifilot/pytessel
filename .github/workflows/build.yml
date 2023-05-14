@@ -14,7 +14,7 @@ jobs:
     steps:
     - name: Install dependencies
       run: |
-        yum -y install eigen3-devel boost-devel libgomp glm-devel
+        yum -y install eigen3-devel libgomp glm-devel
         yum -y install mlocate
         yum -y install gcc
         ls -alh /opt/python/cp*
@@ -52,11 +52,6 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
-      - name: Install Boost
-        shell: bash -l {0}
-        run: |
-          choco install boost-msvc-14.3
-          choco list --local-only --exact boost-msvc-14.3 --trace
       - name: Install GLM
         uses: suisei-cn/actions-download-file@v1.4.0
         with:

@@ -47,7 +47,6 @@ if os.name == 'nt':
         os.environ['LIB'] += r";C:\Program Files (x86)\Windows Kits\10\Lib\%s\ucrt\x64" % winkit_ver
 
         # also specify some custom paths for libraries
-        os.environ['INCLUDE'] += r";D:\PROGRAMMING\LIBS\boost-1.74.0-win-x64\include"   # boost library
         os.environ['INCLUDE'] += r";D:\PROGRAMMING\LIBS\glm-0.9.9.8"                    # glm library
     else:
         # if msvc_ver and winkit_ver are set to None, this means we are working on Gitlab Actions
