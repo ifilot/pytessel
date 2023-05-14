@@ -41,8 +41,15 @@ jobs:
           environment-file: environment.yml
           python-version: 3.8
           auto-activate-base: false
+      - name: Configure build for amd64
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64
       - shell: bash -l {0}
         run: |
+          echo $PATH
+          echo $INCLUDE
+          echo $LIB
           conda info
           conda list
           conda build .
