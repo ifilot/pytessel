@@ -81,10 +81,6 @@ jobs:
         shell: bash -l {0}
         run: |
           7z x glm-0.9.9.8.zip
-<<<<<<< HEAD
-=======
-          delete glm-0.9.9.8.zip
->>>>>>> master
       - name: Build
         shell: bash -l {0}
         run: |
