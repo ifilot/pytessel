@@ -50,8 +50,9 @@ if os.name == 'nt':
         os.environ['INCLUDE'] += r";D:\PROGRAMMING\LIBS\glm-0.9.9.8"                    # glm library
     else:
         # if msvc_ver and winkit_ver are set to None, this means we are working on Gitlab Actions
-        # which requires the paths to be set differently
-        os.environ['INCLUDE'] += r";" + os.environ['GITHUB_WORKSPACE'] + r"\glm-0.9.9.8"
+        # which requires the paths to be set differently; note that the glm-0.9.9.8.zip file has
+        # a different root path than the glm-0.9.9.8.tar.gz file.
+        os.environ['INCLUDE'] += r";" + os.environ['GITHUB_WORKSPACE'] + r"\glm"
 
 if os.name == 'posix' and sys.platform != 'darwin':
     os.environ['CFLAGS'] = '-I/usr/include/glm'
