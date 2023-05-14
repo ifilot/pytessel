@@ -65,3 +65,10 @@ jobs:
         run: |
           echo $PATH
           conda build .
+      - name: Archive packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: packages
+          path: C:\Miniconda\envs\test\conda-bld\win-64\pytessel-*.tar.bz2
+
+
