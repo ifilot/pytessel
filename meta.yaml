@@ -8,6 +8,7 @@ source:
 requirements:
   build:
     - numpy
+    - {{compiler('cxx')}}
     - python {{ python }}
 
   host:
@@ -29,7 +30,7 @@ test:
   source_files:
     - tests/*.py
   commands:
-    - pytest tests
+    - pytest tests\*.py
 
 about:
   home: https://github.com/ifilot/pytessel
