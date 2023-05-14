@@ -97,6 +97,9 @@ jobs:
     #if: github.ref == 'refs/heads/master'
     needs: build-windows
     runs-on: ubuntu-latest
+    environment:
+      name: anaconda
+      url: https://anaconda.org/ifilot/pyqint
     steps:
     - name: Set-up miniconda
       uses: conda-incubator/setup-miniconda@v2
