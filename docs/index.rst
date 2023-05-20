@@ -9,7 +9,7 @@ PyTessel: isosurface generation tool
    :target: https://www.gnu.org/licenses/gpl-3.0
 
 :program:`PyTessel` is a Python package for building isosurfaces from 3D scalar
- fields.
+fields.
 
 :program:`PyTessel` has been developed at the Eindhoven University of Technology,
 Netherlands. :program:`PyTessel` and its development are hosted on `github
