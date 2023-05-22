@@ -101,7 +101,7 @@ jobs:
   anaconda-publish:
     name: Publish Anaconda / Windows
     if: github.ref == 'refs/heads/master'
-    needs: build-windows
+    needs: build-anaconda-windows
     runs-on: ubuntu-latest
     environment:
       name: anaconda
