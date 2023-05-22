@@ -23,7 +23,6 @@
 #include <fstream>
 #include <set>
 #include <vector>
-#include <omp.h>
 #include <unordered_map>
 
 #define GLM_FORCE_SWIZZLE
