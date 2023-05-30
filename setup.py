@@ -75,11 +75,8 @@ elif os.name == 'nt':
     extra_compile_args = ["/wd4244"]
     extra_link_args = []
 elif sys.platform == 'darwin':
-    # NOTE: THIS HAS NOT BEEN ADAPTED FOR GITHUB ACTIONS
-    # os.environ['CC'] = "/usr/local/Cellar/gcc/11.2.0_3/bin/gcc-11"
-    # os.environ['CXX'] = "/usr/local/Cellar/gcc/11.2.0_3/bin/c++-11"
-    os.environ['CFLAGS'] = '-I/usr/local/Cellar/boost/1.76.0/include -I/usr/local/Cellar/glm/0.9.9.8/include'
-    extra_compile_args = ["-Wno-date-time", "-fPIC"]
+    os.environ['CFLAGS'] = '-I/usr/local/Cellar/boost/1.81.0_1/include -I /usr/local/Cellar/glm/0.9.9.8/include'
+    extra_compile_args = ["-Wno-date-time", "-fPIC", "-std=c++14"]
     extra_link_args = []
 
 ext_modules = [
@@ -96,7 +93,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='pytessel',
-    version="1.0.0",
+    version="1.0.1",
     author="Ivo Filot",
     author_email="ivo@ivofilot.nl",
     description="Python package for building isosurfaces from 3D scalar fields",

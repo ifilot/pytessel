@@ -30,7 +30,6 @@ class ScalarField{
 private:
     std::array<unsigned int, 3> grid_dimensions;
     std::vector<float> gridptr;
-    unsigned int gridsize;
     glm::mat3 unitcell;
     glm::mat3 unitcell_inverse;
 
