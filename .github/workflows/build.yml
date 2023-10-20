@@ -17,9 +17,7 @@ jobs:
     steps:
     - name: Install dependencies
       run: |
-        yum -y install eigen3-devel libgomp glm-devel
-        yum -y install mlocate
-        yum -y install gcc
+        yum -y install libgomp glm-devel gcc
         ls -alh /opt/python/cp*
         /opt/python/cp37-cp37m/bin/python -m pip install numpy tqdm cython pytest
         /opt/python/cp38-cp38/bin/python -m pip install numpy tqdm cython pytest
