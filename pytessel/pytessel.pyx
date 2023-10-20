@@ -3,6 +3,7 @@
 
 from .pytessel cimport ScalarField, IsoSurface
 from libcpp.string cimport string
+from libcpp.memory cimport shared_ptr,make_shared
 import numpy as np
 import sys
 
@@ -12,30 +13,25 @@ cdef class PyTessel:
         pass
 
     def marching_cubes(self, vector[float] grid, vector[uint] dimensions, vector[float] unitcell, float isovalue):
-        cdef ScalarField* scalarfield
-        cdef IsoSurface* isosurface
-        cdef IsoSurfaceMesh* isosurface_mesh
+        cdef shared_ptr[ScalarField] scalarfield
+        cdef shared_ptr[IsoSurface] isosurface
+        cdef shared_ptr[IsoSurfaceMesh] isosurface_mesh
 
         # build scalar field
-        scalarfield = new ScalarField(grid, dimensions, unitcell)
+        scalarfield = make_shared[ScalarField](grid, dimensions, unitcell)
 
         # construct isosurface
-        isosurface = new IsoSurface(scalarfield)
-        isosurface.marching_cubes(isovalue)
+        isosurface = make_shared[IsoSurface](scalarfield)
+        isosurface.get().marching_cubes(isovalue)
 
         # extract isosurface mesh
-        isosurface_mesh = new IsoSurfaceMesh(scalarfield, isosurface)
-        isosurface_mesh.construct_mesh(False)
+        isosurface_mesh = make_shared[IsoSurfaceMesh](scalarfield, isosurface)
+        isosurface_mesh.get().construct_mesh(False)
 
         # extract data
-        vertices = np.array(isosurface_mesh.get_vertices(), dtype=np.float32).reshape(-1,3)
-        normals = np.array(isosurface_mesh.get_normals(), dtype=np.float32).reshape(-1,3)
-        indices = np.array(isosurface_mesh.get_indices(), dtype=np.uint32)
-
-        # clean data
-        del scalarfield
-        del isosurface
-        del isosurface_mesh
+        vertices = np.array(isosurface_mesh.get().get_vertices(), dtype=np.float32).reshape(-1,3)
+        normals = np.array(isosurface_mesh.get().get_normals(), dtype=np.float32).reshape(-1,3)
+        indices = np.array(isosurface_mesh.get().get_indices(), dtype=np.uint32)
 
         return vertices, normals, indices
 

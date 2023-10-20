@@ -65,3 +65,9 @@ if __name__ == '__main__':
 The isosurface is written to `test.ply` and can, for example, be opened using `ctmviewer`.
 
 ![Isosurface of Gaussian](img/ply_sphere.png)
+
+## Local compilation (Linux)
+
+```bash
+python3 setup.py build_ext --inplace
+```
