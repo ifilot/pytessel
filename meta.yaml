@@ -15,15 +15,15 @@ requirements:
     - python
     - setuptools
     - cython
-    - numpy >=1.17
+    - numpy
 
   run:
     - python
-    - numpy >=1.17
+    - numpy
 
 test:
   requires:
-    - numpy >=1.17
+    - numpy
     - setuptools
     - pytest
   source_files:
