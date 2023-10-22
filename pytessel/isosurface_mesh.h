@@ -24,6 +24,7 @@
 #include <set>
 #include <vector>
 #include <unordered_map>
+#include <memory>
 
 #define GLM_FORCE_SWIZZLE
 #include <glm/glm.hpp>
@@ -62,8 +63,8 @@ private:
     std::vector<glm::vec2> texcoords;
     std::vector<unsigned int> indices;
 
-    const ScalarField* sf;
-    const IsoSurface* is;
+    std::shared_ptr<const ScalarField> sf;
+    std::shared_ptr<const IsoSurface> is;
 
     glm::vec3 center;
 
@@ -74,7 +75,8 @@ public:
      * @param[in]  _sf   pointer to scalar field
      * @param[in]  _is   pointer to isosurface
      */
-    IsoSurfaceMesh(const ScalarField* _sf, const IsoSurface* _is);
+    IsoSurfaceMesh(const std::shared_ptr<const ScalarField>& _sf,
+                   const std::shared_ptr<const IsoSurface>& _is);
 
     IsoSurfaceMesh(const std::vector<float>& vertices,
                    const std::vector<float>& normals,

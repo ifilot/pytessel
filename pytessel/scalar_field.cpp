@@ -30,7 +30,7 @@ ScalarField::ScalarField(const std::vector<float>& _grid,
                          const std::vector<unsigned int>& _dimensions,
                          const std::vector<float>& _unitcell) {
 
-    this->gridptr = _grid;
+    this->grid = _grid;
     this->grid_dimensions = {_dimensions[0], _dimensions[1], _dimensions[2]};
     for(unsigned int i=0; i<3; i++) {
         for(unsigned int j=0; j<3; j++) {
@@ -125,7 +125,7 @@ float ScalarField::get_value(unsigned int i, unsigned int j, unsigned int k) con
     unsigned int idx = k * this->grid_dimensions[0] * this->grid_dimensions[1] +
                        j * this->grid_dimensions[0] +
                        i;
-    return this->gridptr[idx];
+    return this->grid[idx];
 }
 
 /*
@@ -183,9 +183,9 @@ void ScalarField::copy_grid_dimensions(unsigned int _grid_dimensions[]) const {
 }
 
 float ScalarField::get_max() const {
-    return *std::max_element(this->gridptr.begin(), this->gridptr.end());
+    return *std::max_element(this->grid.begin(), this->grid.end());
 }
 
 float ScalarField::get_min() const {
-    return *std::min_element(this->gridptr.begin(), this->gridptr.end());
+    return *std::min_element(this->grid.begin(), this->grid.end());
 }
