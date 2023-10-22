@@ -204,9 +204,10 @@ jobs:
           anaconda upload packages/*.tar.bz2
 
 #-------------------------------------------------------------------------------
-# Anaconda / Linux
+# Anaconda / MacOSx
 #-------------------------------------------------------------------------------
   build-anaconda-macos:
+    needs: check-version-strings
     runs-on: macos-latest
 
     steps:
