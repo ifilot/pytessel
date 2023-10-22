@@ -26,8 +26,8 @@
  * @param[in]  _sf   pointer to scalar field
  * @param[in]  _is   pointer to isosurface
  */
-IsoSurfaceMesh::IsoSurfaceMesh(const ScalarField* _sf,
-                               const IsoSurface* _is) :
+IsoSurfaceMesh::IsoSurfaceMesh(const std::shared_ptr<const ScalarField>& _sf,
+                               const std::shared_ptr<const IsoSurface>& _is) :
     sf(_sf),
     is(_is) {
 }

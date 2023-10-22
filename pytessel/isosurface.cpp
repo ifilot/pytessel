@@ -292,9 +292,9 @@ float Triangle::get_z(unsigned int i) const {
  *
  * @param      _sf   pointer to ScalarField object
  */
-IsoSurface::IsoSurface(ScalarField* _vp) {
+IsoSurface::IsoSurface(const std::shared_ptr<ScalarField>& _vp) :
+    vp_ptr(_vp) {
     this->isovalue = 0;
-    this->vp_ptr = _vp;
     this->vp_ptr->copy_grid_dimensions(this->grid_dimensions);
 }
 

@@ -2,7 +2,7 @@ import unittest
 from pytessel import PyTessel
 import numpy as np
 
-class TestIntegrals(unittest.TestCase):
+class TestIsoSurface(unittest.TestCase):
 
     def testIsosurfaceGaussian(self):
         """

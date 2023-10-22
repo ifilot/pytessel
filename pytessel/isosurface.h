@@ -24,6 +24,7 @@
 #include <iostream>
 #include <cmath>
 #include <mutex>
+#include <memory>
 
 #include "edgetable.h"
 #include "triangletable.h"
@@ -128,9 +129,9 @@ private:
     std::vector<Cube> cube_table;
     std::vector<Tetrahedron> tetrahedra_table;
     std::vector<Triangle> triangles;
-    ScalarField *vp_ptr;                // pointer to ScalarField obj
+    std::shared_ptr<ScalarField> vp_ptr;        // pointer to ScalarField obj
     unsigned int grid_dimensions[3];
-    float isovalue;                     // isovalue setting
+    float isovalue;                             // isovalue setting
 
 public:
     /**
@@ -138,7 +139,7 @@ public:
      *
      * @param      _sf   pointer to ScalarField object
      */
-    IsoSurface(ScalarField *_sf);
+    IsoSurface(const std::shared_ptr<ScalarField>& _sf);
 
     /**
      * @brief      generate isosurface using marching cubes algorithm
@@ -165,7 +166,7 @@ public:
         return this->isovalue;
     }
 
-    inline const ScalarField* get_scalar_field() const {
+    inline const std::shared_ptr<ScalarField>& get_scalar_field() const {
         return this->vp_ptr;
     }
 
