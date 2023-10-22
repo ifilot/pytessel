@@ -12,7 +12,13 @@ PyTessel: isosurface generation tool
 
 :program:`PyTessel` is a Python package for building isosurfaces from 3D scalar
 fields. It is originally designed to create isosurfaces of (molecular) orbitals
-and electron densities, but is agnotistic with respect to data input.
+and electron densities, but is agnotistic with respect to data input. The
+majority of the instructions of :program:`PyTessel` are coded in C++ and are
+coupled to a number of Python routines using the `Cython <https://cython.org/>`_
+extension. :program:`PyTessel` makes use of shared-memory parallelization
+via `OpenMP <https://www.openmp.org/>`_ ensuring efficient use is made of
+trivial parallelization strategies. For more information about the algorithm,
+please consult the :ref:`background` section.
 
 To construct an isosurface, :program:`PyTessel` requires a scalar field and a
 description of the unit cell wherein the scalar field resides. A very succinct
@@ -61,7 +67,9 @@ requests are ideally submitted via the `github issue tracker
    :caption: Contents:
 
    installation
+   background
    user_interface
+   examples
    community_guidelines
 
 Indices and tables
