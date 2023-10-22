@@ -9,7 +9,7 @@ on:
 jobs:
   build-docs:
     runs-on: ubuntu-latest
-    container: ghcr.io/ifilot/sphinx:v0.5.0
+    container: ghcr.io/ifilot/sphinx:v0.6.0
     steps:
     - uses: actions/checkout@v3
     - name: Build documentation
