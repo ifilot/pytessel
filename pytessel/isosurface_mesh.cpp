@@ -132,11 +132,11 @@ unsigned int IsoSurfaceMesh::get_index_vertex(const Vec3 v) {
 }
 
 std::vector<float> IsoSurfaceMesh::get_vertices() const {
-    return std::vector<float>(&this->vertices[0][0], &this->vertices[0][0] + this->vertices.size() * 3);
+    return std::vector<float>(&this->vertices[0].x, &this->vertices[0].x + this->vertices.size() * 3);
 }
 
 std::vector<float> IsoSurfaceMesh::get_normals() const {
-    return std::vector<float>(&this->normals[0][0], &this->normals[0][0] + this->normals.size() * 3);
+    return std::vector<float>(&this->normals[0].x, &this->normals[0].x + this->normals.size() * 3);
 }
 
 const std::vector<unsigned int>& IsoSurfaceMesh::get_indices() const {

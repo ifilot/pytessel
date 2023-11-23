@@ -37,7 +37,7 @@ ScalarField::ScalarField(const std::vector<float>& _grid,
             this->unitcell[i][j] = _unitcell[i*3 + j];
         }
     }
-    this->inverse(this->unitcell, this->unitcell_inverse);
+    this->inverse(this->unitcell, &this->unitcell_inverse);
 }
 
 /*
@@ -61,20 +61,20 @@ float ScalarField::get_value_interp(float x, float y, float z) const {
     Vec3 r = this->realspace_to_grid(x,y,z);
 
     // calculate value using trilinear interpolation
-    float xd = remainderf(r[0], 1.0);
-    float yd = remainderf(r[1], 1.0);
-    float zd = remainderf(r[2], 1.0);
+    float xd = remainderf(r.x, 1.0);
+    float yd = remainderf(r.y, 1.0);
+    float zd = remainderf(r.z, 1.0);
 
     if(xd < 0) xd += 1.0;
     if(yd < 0) yd += 1.0;
     if(zd < 0) zd += 1.0;
 
-    float x0 = floor(r[0]);
-    float x1 = ceil(r[0]);
-    float y0 = floor(r[1]);
-    float y1 = ceil(r[1]);
-    float z0 = floor(r[2]);
-    float z1 = ceil(r[2]);
+    float x0 = floor(r.x);
+    float x1 = ceil(r.x);
+    float y0 = floor(r.y);
+    float y1 = ceil(r.y);
+    float z0 = floor(r.z);
+    float z1 = ceil(r.z);
 
     return
     this->get_value(x0, y0, z0) * (1.0 - xd) * (1.0 - yd) * (1.0 - zd) +
@@ -100,13 +100,13 @@ bool ScalarField::is_inside(float x, float y, float z) const {
     // cast the input to the nearest grid point
     Vec3 d = this->realspace_to_direct(x,y,z);
 
-    if(d[0] < 0 || d[0] > 1.0) {
+    if(d.x < 0 || d.x > 1.0) {
         return false;
     }
-    if(d[1] < 0 || d[1] > 1.0) {
+    if(d.y < 0 || d.y > 1.0) {
         return false;
     }
-    if(d[2] < 0 || d[2] > 1.0) {
+    if(d.z < 0 || d.z > 1.0) {
         return false;
     }
 
@@ -141,18 +141,18 @@ Vec3 ScalarField::grid_to_realspace(float i, float j, float k) const {
     float dz = (float)k / (float)grid_dimensions[2];
 
     Vec3 r;
-    r[0] = this->unitcell[0][0] * dx + this->unitcell[1][0] * dy + this->unitcell[2][0] * dz;
-    r[1] = this->unitcell[0][1] * dx + this->unitcell[1][1] * dy + this->unitcell[2][1] * dz;
-    r[2] = this->unitcell[0][2] * dx + this->unitcell[1][2] * dy + this->unitcell[2][2] * dz;
+    r.x = this->unitcell[0][0] * dx + this->unitcell[1][0] * dy + this->unitcell[2][0] * dz;
+    r.y = this->unitcell[0][1] * dx + this->unitcell[1][1] * dy + this->unitcell[2][1] * dz;
+    r.z = this->unitcell[0][2] * dx + this->unitcell[1][2] * dy + this->unitcell[2][2] * dz;
 
     return r;
 }
 
 Vec3 ScalarField::realspace_to_direct(float x, float y, float z) const {
     Vec3 d;
-    d[0] = this->unitcell_inverse[0][0] * x + this->unitcell_inverse[0][1] * y + this->unitcell_inverse[0][2] * z;
-    d[1] = this->unitcell_inverse[1][0] * x + this->unitcell_inverse[1][1] * y + this->unitcell_inverse[1][2] * z;
-    d[2] = this->unitcell_inverse[2][0] * x + this->unitcell_inverse[2][1] * y + this->unitcell_inverse[2][2] * z;
+    d.x = this->unitcell_inverse[0][0] * x + this->unitcell_inverse[0][1] * y + this->unitcell_inverse[0][2] * z;
+    d.y = this->unitcell_inverse[1][0] * x + this->unitcell_inverse[1][1] * y + this->unitcell_inverse[1][2] * z;
+    d.z = this->unitcell_inverse[2][0] * x + this->unitcell_inverse[2][1] * y + this->unitcell_inverse[2][2] * z;
 
     return d;
 }
@@ -169,9 +169,9 @@ Vec3 ScalarField::realspace_to_direct(float x, float y, float z) const {
 Vec3 ScalarField::realspace_to_grid(float i, float j, float k) const {
     Vec3 g = this->realspace_to_direct(i, j, k);
 
-    g[0] *= float(this->grid_dimensions[0]-1);
-    g[1] *= float(this->grid_dimensions[1]-1);
-    g[2] *= float(this->grid_dimensions[2]-1);
+    g.x *= float(this->grid_dimensions[0]-1);
+    g.y *= float(this->grid_dimensions[1]-1);
+    g.z *= float(this->grid_dimensions[2]-1);
 
     return g;
 }
@@ -190,7 +190,7 @@ float ScalarField::get_min() const {
     return *std::min_element(this->grid.begin(), this->grid.end());
 }
 
-void ScalarField::inverse(float* mat, float* invmat) {
+void ScalarField::inverse(const mat33& mat, mat33* invmat) {
     // computes the inverse of a matrix m
     float det = mat[0][0] * (mat[1][1] * mat[2][2] - mat[2][1] * mat[1][2]) -
                 mat[0][1] * (mat[1][0] * mat[2][2] - mat[1][2] * mat[2][0]) +
@@ -198,13 +198,13 @@ void ScalarField::inverse(float* mat, float* invmat) {
 
     float invdet = 1.0 / det;
 
-    invmat[0,0] = (mat[1,1] * mat[2,2] - mat[2,1] * mat[1,2]) * invdet;
-    invmat[0,1] = (mat[0,2] * mat[2,1] - mat[0,1] * mat[2,2]) * invdet;
-    invmat[0,2] = (mat[0,1] * mat[1,2] - mat[0,2] * mat[1,1]) * invdet;
-    invmat[1,0] = (mat[1,2] * mat[2,0] - mat[1,0] * mat[2,2]) * invdet;
-    invmat[1,1] = (mat[0,0] * mat[2,2] - mat[0,2] * mat[2,0]) * invdet;
-    invmat[1,2] = (mat[1,0] * mat[0,2] - mat[0,0] * mat[1,2]) * invdet;
-    invmat[2,0] = (mat[1,0] * mat[2,1] - mat[2,0] * mat[1,1]) * invdet;
-    invmat[2,1] = (mat[2,0] * mat[0,1] - mat[0,0] * mat[2,1]) * invdet;
-    invmat[2,2] = (mat[0,0] * mat[1,1] - mat[1,0] * mat[0,1]) * invdet;
+    *invmat[0][0] = (mat[1][1] * mat[2][2] - mat[2][1] * mat[1][2]) * invdet;
+    *invmat[0][1] = (mat[0][2] * mat[2][1] - mat[0][1] * mat[2][2]) * invdet;
+    *invmat[0][2] = (mat[0][1] * mat[1][2] - mat[0][2] * mat[1][1]) * invdet;
+    *invmat[1][0] = (mat[1][2] * mat[2][0] - mat[1][0] * mat[2][2]) * invdet;
+    *invmat[1][1] = (mat[0][0] * mat[2][2] - mat[0][2] * mat[2][0]) * invdet;
+    *invmat[1][2] = (mat[1][0] * mat[0][2] - mat[0][0] * mat[1][2]) * invdet;
+    *invmat[2][0] = (mat[1][0] * mat[2][1] - mat[2][0] * mat[1][1]) * invdet;
+    *invmat[2][1] = (mat[2][0] * mat[0][1] - mat[0][0] * mat[2][1]) * invdet;
+    *invmat[2][2] = (mat[0][0] * mat[1][1] - mat[1][0] * mat[0][1]) * invdet;
 }

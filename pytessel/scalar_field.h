@@ -88,7 +88,7 @@ public:
      */
     bool is_inside(float x, float y, float z) const;
 
-    void calculate_inverse(float* mat, float* invmat);
+    void inverse(const mat33& mat, mat33* invmat);
 
     inline const mat33& get_mat_unitcell() const {
         return this->unitcell;

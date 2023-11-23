@@ -26,7 +26,7 @@
 #include <unordered_map>
 #include <memory>
 
-#include "Vec3.h"
+#include "vec3.h"
 #include "isosurface.h"
 
 // add SGN function for Windows
