@@ -25,14 +25,16 @@
 #include <array>
 #include <algorithm>
 
+typedef float mat33[3][3];
+
 #include "vec3.h"
 
 class ScalarField{
 private:
     std::array<unsigned int, 3> grid_dimensions;
     std::vector<float> grid;
-    float unitcell[3][3];
-    float unitcell_inverse[3][3];
+    mat33 unitcell;
+    mat33 unitcell_inverse;
 
 public:
 
@@ -87,6 +89,10 @@ public:
     bool is_inside(float x, float y, float z) const;
 
     void calculate_inverse(float* mat, float* invmat);
+
+    inline const mat33& get_mat_unitcell() const {
+        return this->unitcell;
+    }
 
 private:
 };
