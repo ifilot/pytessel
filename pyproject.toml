@@ -11,5 +11,5 @@ build-backend = "setuptools.build_meta"
 test-requires = "pytest"
 test-command = "pytest {project}/tests"
 
-# Skip CPython 3.7 and PyPy wheels
-skip = ["cp37-*", "pp*"]
+# skip PyPy wheels
+skip = ["pp*"]

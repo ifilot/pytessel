@@ -3,6 +3,7 @@ import unittest
 from pytessel import PyTessel
 import numpy as np
 import sys, os
+import platform
 
 # add a reference to load the pytessel library
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -15,12 +16,24 @@ class TestIsosurfaceMetaballIcosahedron(unittest.TestCase):
         """
         pytessel = PyTessel()
 
-        results = [
-             [200,200,1128],
-             [1312,1312,7896],
-             [2168,2168,12960],
-             [9224,9224,55224],
-        ]
+        # the test results differ for 64 bit OS and 32 bit OS (due to rounding errors in the scalar field)
+        # the cause of this is mainly due to assessing when two vertices are alike, for 32 bit OS
+        # the threshold is met sooner leading to fewer vertices; the number of triangles is however conserved
+        # between 32 and 64 bit OS
+        if platform.machine().endswith('64'):
+            results = [
+                [200,200,1128],
+                [1312,1312,7896],
+                [2168,2168,12960],
+                [9224,9224,55224],
+            ]
+        else:
+            results = [
+                [192,192,1128],
+                [1296,1296,7896],
+                [2124,2124,12960],
+                [9168,9168,55224],
+            ]
 
         for nrpoints, result in zip([10,20,25,50], results):
             sz = 3
