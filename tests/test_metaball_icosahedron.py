@@ -2,6 +2,10 @@
 import unittest
 from pytessel import PyTessel
 import numpy as np
+import sys, os
+
+# add a reference to load the pytessel library
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 class TestIsosurfaceMetaballIcosahedron(unittest.TestCase):
 

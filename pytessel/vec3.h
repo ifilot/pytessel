@@ -61,24 +61,39 @@ public:
         return this->x * rhs.x + this->y * rhs.y + this->z * rhs.z;
     }
 
+    /**
+     * Addition operation between two vectors
+    */
     friend Vec3 operator+(const Vec3& lhs, const Vec3& rhs) {
         return Vec3(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z);
     }
 
+    /**
+     * Subtraction operation between two vectors
+    */
     friend Vec3 operator-(const Vec3& lhs, const Vec3& rhs) {
         return Vec3(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z);
     }
 
+    /**
+     * Subtraction assignment operation
+    */
     void operator-=(const Vec3& rhs) {
         this->x -= rhs.x;
         this->y -= rhs.y;
         this->z -= rhs.z;
     }
 
+    /**
+     * Divide vector by a scalar operation
+    */
     friend Vec3 operator/(const Vec3& rhs, float v) {
         return Vec3(rhs.x / v, rhs.y / v, rhs.z / v);
     }
 
+    /**
+     * Calculate cross product between two vectors
+    */
     Vec3 cross(const Vec3& rhs) const {
         return Vec3(
             this->y * rhs.z - this->z * rhs.y,
