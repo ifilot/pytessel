@@ -58,7 +58,7 @@ float ScalarField::get_value_interp(float x, float y, float z) const {
     }
 
     // cast the input to the nearest grid point
-    std::array<float,3> r = this->realspace_to_grid(x,y,z);
+    Vec3 r = this->realspace_to_grid(x,y,z);
 
     // calculate value using trilinear interpolation
     float xd = remainderf(r[0], 1.0);
@@ -98,7 +98,7 @@ float ScalarField::get_value_interp(float x, float y, float z) const {
  */
 bool ScalarField::is_inside(float x, float y, float z) const {
     // cast the input to the nearest grid point
-    std::array<float,3> d = this->realspace_to_direct(x,y,z);
+    Vec3 d = this->realspace_to_direct(x,y,z);
 
     if(d[0] < 0 || d[0] > 1.0) {
         return false;
@@ -129,18 +129,18 @@ float ScalarField::get_value(unsigned int i, unsigned int j, unsigned int k) con
 }
 
 /*
- * std::array<float,3> grid_to_realspace(i,j,k)
+ * Vec3 grid_to_realspace(i,j,k)
  *
  * Converts a grid point to a realspace vector. This function
  * is not being used at the moment.
  *
  */
-std::array<float,3> ScalarField::grid_to_realspace(float i, float j, float k) const {
+Vec3 ScalarField::grid_to_realspace(float i, float j, float k) const {
     float dx = (float)i / (float)grid_dimensions[0];
     float dy = (float)j / (float)grid_dimensions[1];
     float dz = (float)k / (float)grid_dimensions[2];
 
-    std::array<float,3> r;
+    Vec3 r;
     r[0] = this->unitcell[0][0] * dx + this->unitcell[1][0] * dy + this->unitcell[2][0] * dz;
     r[1] = this->unitcell[0][1] * dx + this->unitcell[1][1] * dy + this->unitcell[2][1] * dz;
     r[2] = this->unitcell[0][2] * dx + this->unitcell[1][2] * dy + this->unitcell[2][2] * dz;
@@ -148,8 +148,8 @@ std::array<float,3> ScalarField::grid_to_realspace(float i, float j, float k) co
     return r;
 }
 
-std::array<float,3> ScalarField::realspace_to_direct(float x, float y, float z) const {
-    std::array<float,3> d;
+Vec3 ScalarField::realspace_to_direct(float x, float y, float z) const {
+    Vec3 d;
     d[0] = this->unitcell_inverse[0][0] * x + this->unitcell_inverse[0][1] * y + this->unitcell_inverse[0][2] * z;
     d[1] = this->unitcell_inverse[1][0] * x + this->unitcell_inverse[1][1] * y + this->unitcell_inverse[1][2] * z;
     d[2] = this->unitcell_inverse[2][0] * x + this->unitcell_inverse[2][1] * y + this->unitcell_inverse[2][2] * z;
@@ -158,7 +158,7 @@ std::array<float,3> ScalarField::realspace_to_direct(float x, float y, float z) 
 }
 
 /*
- * std::array<float,3> realspace_to_grid(i,j,k)
+ * Vec3 realspace_to_grid(i,j,k)
  *
  * Convert 3d realspace vector to a position on the grid. Non-integer
  * values (i.e. floating point) are given as the result.
@@ -166,8 +166,8 @@ std::array<float,3> ScalarField::realspace_to_direct(float x, float y, float z) 
  * This is a convenience function for the get_value_interp() function
  *
  */
-std::array<float,3> ScalarField::realspace_to_grid(float i, float j, float k) const {
-    std::array<float,3> g = this->realspace_to_direct(i, j, k);
+Vec3 ScalarField::realspace_to_grid(float i, float j, float k) const {
+    Vec3 g = this->realspace_to_direct(i, j, k);
 
     g[0] *= float(this->grid_dimensions[0]-1);
     g[1] *= float(this->grid_dimensions[1]-1);

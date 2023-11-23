@@ -26,7 +26,7 @@
 #include <unordered_map>
 #include <memory>
 
-#include "vec3.h"
+#include "Vec3.h"
 #include "isosurface.h"
 
 // add SGN function for Windows
@@ -39,14 +39,14 @@ template <typename T> float sgn(T val) {
  */
 struct KeyFuncs
 {
-    size_t operator()(const vec3& k)const
+    size_t operator()(const Vec3& k)const
     {
-        return std::hash<float>()(k[0]) ^ std::hash<float>()(k[1]) ^ std::hash<float>()(k[2]);
+        return std::hash<float>()(k.x) ^ std::hash<float>()(k.y) ^ std::hash<float>()(k.z);
     }
 
-    bool operator()(const vec3& a, const vec3& b)const
+    bool operator()(const Vec3& a, const Vec3& b)const
     {
-            return a[0] == b[0] && a[1] == b[1] && a[2] == b[2];
+            return a.x == b.x && a.y == b.y && a.z == b.z;
     }
 };
 
@@ -55,15 +55,15 @@ struct KeyFuncs
  */
 class IsoSurfaceMesh{
 private:
-    std::unordered_map<vec3, unsigned int, KeyFuncs, KeyFuncs> vertices_map;
-    std::vector<vec3> vertices;
-    std::vector<vec3> normals;
+    std::unordered_map<Vec3, unsigned int, KeyFuncs, KeyFuncs> vertices_map;
+    std::vector<Vec3> vertices;
+    std::vector<Vec3> normals;
     std::vector<unsigned int> indices;
 
     std::shared_ptr<const ScalarField> sf;
     std::shared_ptr<const IsoSurface> is;
 
-    vec3 center;
+    Vec3 center;
 
 public:
     /**
@@ -100,5 +100,5 @@ private:
      *
      * @return     the index
      */
-    unsigned int get_index_vertex(const Vec3f v);
+    unsigned int get_index_vertex(const Vec3 v);
 };

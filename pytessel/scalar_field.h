@@ -63,11 +63,11 @@ public:
 
     float get_value(unsigned int i, unsigned int j, unsigned int k) const;
 
-    vec3 grid_to_realspace(float i, float j, float k) const;
+    Vec3 grid_to_realspace(float i, float j, float k) const;
 
-    vec3 realspace_to_grid(float i, float j, float k) const;
+    Vec3 realspace_to_grid(float i, float j, float k) const;
 
-    vec3 realspace_to_direct(float x, float y, float z) const;
+    Vec3 realspace_to_direct(float x, float y, float z) const;
 
     void copy_grid_dimensions(unsigned int _grid_dimensions[]) const;
 

@@ -7,10 +7,10 @@ public:
     float y = 0.0;
     float z = 0.0;
 
+    Vec3();
 
+    Vec3(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {}
 
 };
-
-typedef std::array<float,3> vec3;
 
 #endif // _VEC3_H
