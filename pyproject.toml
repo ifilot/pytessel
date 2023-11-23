@@ -5,5 +5,11 @@ requires = [
     "Cython",
     "numpy",
 ]
-
 build-backend = "setuptools.build_meta"
+
+[tool.cibuildwheel]
+test-requires = "pytest"
+test-command = "pytest {project}/tests"
+
+# Skip CPython 3.7 and PyPy wheels
+skip = ["cp37-*", "pp*"]

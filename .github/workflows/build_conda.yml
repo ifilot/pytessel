@@ -22,57 +22,6 @@ jobs:
           python deploy/check_version.py
 
 #-------------------------------------------------------------------------------
-# PyPI / Linux
-#-------------------------------------------------------------------------------
-  build-pypi-linux:
-    needs: check-version-strings
-    runs-on: ubuntu-latest
-    container: quay.io/pypa/manylinux2014_x86_64
-
-    steps:
-      - name: Install dependencies
-        run: |
-          yum -y install libgomp gcc
-          ls -alh /opt/python/cp*
-          /opt/python/cp37-cp37m/bin/python -m pip install numpy tqdm cython pytest
-          /opt/python/cp38-cp38/bin/python -m pip install numpy tqdm cython pytest
-          /opt/python/cp39-cp39/bin/python -m pip install numpy tqdm cython pytest
-          /opt/python/cp310-cp310/bin/python -m pip install numpy tqdm cython pytest
-          /opt/python/cp311-cp311/bin/python -m pip install numpy tqdm cython pytest
-      - name: Checkout repo
-        uses: actions/checkout@v3
-      - name: Build
-        run: ./deploy/docker_setup_github.sh
-      - name: Test
-        run: ./deploy/docker_test_github.sh
-      - name: Archive wheels
-        uses: actions/upload-artifact@v3
-        with:
-          name: wheels
-          path: wheelhouse/pytessel-*.whl
-
-  pypi-publish:
-    name: Upload release to PyPI
-    if: github.ref == 'refs/heads/master'
-    needs: build-pypi-linux
-    runs-on: ubuntu-latest
-    environment:
-      name: pypi
-      url: https://pypi.org/p/pytessel
-    permissions:
-      id-token: write
-    steps:
-      - name: Retrieve packages
-        uses: actions/download-artifact@v3
-        with:
-          name: wheels
-          path: wheelhouse
-      - name: Publish package distributions to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          packages-dir: wheelhouse/
-
-#-------------------------------------------------------------------------------
 # Anaconda / Windows
 #-------------------------------------------------------------------------------
   build-anaconda-windows:
