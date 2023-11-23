@@ -24,14 +24,15 @@
 #include <vector>
 #include <array>
 #include <algorithm>
-#include <glm/glm.hpp>
+
+#include "vec3.h"
 
 class ScalarField{
 private:
     std::array<unsigned int, 3> grid_dimensions;
     std::vector<float> grid;
-    glm::mat3 unitcell;
-    glm::mat3 unitcell_inverse;
+    float unitcell[3][3];
+    float unitcell_inverse[3][3];
 
 public:
 
@@ -62,11 +63,11 @@ public:
 
     float get_value(unsigned int i, unsigned int j, unsigned int k) const;
 
-    glm::vec3 grid_to_realspace(float i, float j, float k) const;
+    vec3 grid_to_realspace(float i, float j, float k) const;
 
-    glm::vec3 realspace_to_grid(float i, float j, float k) const;
+    vec3 realspace_to_grid(float i, float j, float k) const;
 
-    glm::vec3 realspace_to_direct(float x, float y, float z) const;
+    vec3 realspace_to_direct(float x, float y, float z) const;
 
     void copy_grid_dimensions(unsigned int _grid_dimensions[]) const;
 
@@ -85,9 +86,7 @@ public:
      */
     bool is_inside(float x, float y, float z) const;
 
-    inline const glm::mat3& get_mat_unitcell() const {
-        return this->unitcell;
-    }
+    void calculate_inverse(float* mat, float* invmat);
 
 private:
 };

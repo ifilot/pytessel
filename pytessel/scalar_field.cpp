@@ -37,7 +37,7 @@ ScalarField::ScalarField(const std::vector<float>& _grid,
             this->unitcell[i][j] = _unitcell[i*3 + j];
         }
     }
-    this->unitcell_inverse = glm::inverse(this->unitcell);
+    this->inverse(this->unitcell, this->unitcell_inverse);
 }
 
 /*
@@ -58,7 +58,7 @@ float ScalarField::get_value_interp(float x, float y, float z) const {
     }
 
     // cast the input to the nearest grid point
-    glm::vec3 r = this->realspace_to_grid(x,y,z);
+    std::array<float,3> r = this->realspace_to_grid(x,y,z);
 
     // calculate value using trilinear interpolation
     float xd = remainderf(r[0], 1.0);
@@ -98,7 +98,7 @@ float ScalarField::get_value_interp(float x, float y, float z) const {
  */
 bool ScalarField::is_inside(float x, float y, float z) const {
     // cast the input to the nearest grid point
-    glm::vec3 d = this->realspace_to_direct(x,y,z);
+    std::array<float,3> d = this->realspace_to_direct(x,y,z);
 
     if(d[0] < 0 || d[0] > 1.0) {
         return false;
@@ -129,18 +129,18 @@ float ScalarField::get_value(unsigned int i, unsigned int j, unsigned int k) con
 }
 
 /*
- * glm::vec3 grid_to_realspace(i,j,k)
+ * std::array<float,3> grid_to_realspace(i,j,k)
  *
  * Converts a grid point to a realspace vector. This function
  * is not being used at the moment.
  *
  */
-glm::vec3 ScalarField::grid_to_realspace(float i, float j, float k) const {
+std::array<float,3> ScalarField::grid_to_realspace(float i, float j, float k) const {
     float dx = (float)i / (float)grid_dimensions[0];
     float dy = (float)j / (float)grid_dimensions[1];
     float dz = (float)k / (float)grid_dimensions[2];
 
-    glm::vec3 r;
+    std::array<float,3> r;
     r[0] = this->unitcell[0][0] * dx + this->unitcell[1][0] * dy + this->unitcell[2][0] * dz;
     r[1] = this->unitcell[0][1] * dx + this->unitcell[1][1] * dy + this->unitcell[2][1] * dz;
     r[2] = this->unitcell[0][2] * dx + this->unitcell[1][2] * dy + this->unitcell[2][2] * dz;
@@ -148,8 +148,8 @@ glm::vec3 ScalarField::grid_to_realspace(float i, float j, float k) const {
     return r;
 }
 
-glm::vec3 ScalarField::realspace_to_direct(float x, float y, float z) const {
-    glm::vec3 d;
+std::array<float,3> ScalarField::realspace_to_direct(float x, float y, float z) const {
+    std::array<float,3> d;
     d[0] = this->unitcell_inverse[0][0] * x + this->unitcell_inverse[0][1] * y + this->unitcell_inverse[0][2] * z;
     d[1] = this->unitcell_inverse[1][0] * x + this->unitcell_inverse[1][1] * y + this->unitcell_inverse[1][2] * z;
     d[2] = this->unitcell_inverse[2][0] * x + this->unitcell_inverse[2][1] * y + this->unitcell_inverse[2][2] * z;
@@ -158,7 +158,7 @@ glm::vec3 ScalarField::realspace_to_direct(float x, float y, float z) const {
 }
 
 /*
- * glm::vec3 realspace_to_grid(i,j,k)
+ * std::array<float,3> realspace_to_grid(i,j,k)
  *
  * Convert 3d realspace vector to a position on the grid. Non-integer
  * values (i.e. floating point) are given as the result.
@@ -166,8 +166,8 @@ glm::vec3 ScalarField::realspace_to_direct(float x, float y, float z) const {
  * This is a convenience function for the get_value_interp() function
  *
  */
-glm::vec3 ScalarField::realspace_to_grid(float i, float j, float k) const {
-    glm::vec3 g = this->realspace_to_direct(i, j, k);
+std::array<float,3> ScalarField::realspace_to_grid(float i, float j, float k) const {
+    std::array<float,3> g = this->realspace_to_direct(i, j, k);
 
     g[0] *= float(this->grid_dimensions[0]-1);
     g[1] *= float(this->grid_dimensions[1]-1);
@@ -188,4 +188,23 @@ float ScalarField::get_max() const {
 
 float ScalarField::get_min() const {
     return *std::min_element(this->grid.begin(), this->grid.end());
+}
+
+void ScalarField::inverse(float* mat, float* invmat) {
+    // computes the inverse of a matrix m
+    float det = mat[0][0] * (mat[1][1] * mat[2][2] - mat[2][1] * mat[1][2]) -
+                mat[0][1] * (mat[1][0] * mat[2][2] - mat[1][2] * mat[2][0]) +
+                mat[0][2] * (mat[1][0] * mat[2][1] - mat[1][1] * mat[2][0]);
+
+    float invdet = 1.0 / det;
+
+    invmat[0,0] = (mat[1,1] * mat[2,2] - mat[2,1] * mat[1,2]) * invdet;
+    invmat[0,1] = (mat[0,2] * mat[2,1] - mat[0,1] * mat[2,2]) * invdet;
+    invmat[0,2] = (mat[0,1] * mat[1,2] - mat[0,2] * mat[1,1]) * invdet;
+    invmat[1,0] = (mat[1,2] * mat[2,0] - mat[1,0] * mat[2,2]) * invdet;
+    invmat[1,1] = (mat[0,0] * mat[2,2] - mat[0,2] * mat[2,0]) * invdet;
+    invmat[1,2] = (mat[1,0] * mat[0,2] - mat[0,0] * mat[1,2]) * invdet;
+    invmat[2,0] = (mat[1,0] * mat[2,1] - mat[2,0] * mat[1,1]) * invdet;
+    invmat[2,1] = (mat[2,0] * mat[0,1] - mat[0,0] * mat[2,1]) * invdet;
+    invmat[2,2] = (mat[0,0] * mat[1,1] - mat[1,0] * mat[0,1]) * invdet;
 }
