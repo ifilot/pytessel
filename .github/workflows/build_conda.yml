@@ -10,6 +10,7 @@ on:
   release:
     types:
       - published
+  tags:
 
 jobs:
   check-version-strings:
