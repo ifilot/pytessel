@@ -45,15 +45,7 @@ if os.name == 'nt':
         os.environ['LIB'] += r";C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\%s\lib\x64" % msvc_ver
         os.environ['LIB'] += r";C:\Program Files (x86)\Windows Kits\10\Lib\%s\um\x64" % winkit_ver
         os.environ['LIB'] += r";C:\Program Files (x86)\Windows Kits\10\Lib\%s\ucrt\x64" % winkit_ver
-
-        # also specify some custom paths for libraries
-        os.environ['INCLUDE'] += r";D:\PROGRAMMING\LIBS\glm-0.9.9.8"                    # glm library
     else:
-        # if msvc_ver and winkit_ver are set to None, this means we are working on Gitlab Actions
-        # which requires the paths to be set differently; note that the glm-0.9.9.8.zip file has
-        # a different root path than the glm-0.9.9.8.tar.gz file.
-        os.environ['INCLUDE'] += r";" + os.environ['GITHUB_WORKSPACE'] + r"\glm"
-
         # re-order paths to ensure that the MSVC toolchain is in front; this needs to be done
         # because the Git bin folder precedes the MSVC bin folder, resulting in the wrong link.exe
         # executable to be used in the linking step
@@ -65,7 +57,6 @@ if os.name == 'nt':
             else:
                 newpaths.append(path)
         os.environ['PATH'] = ";".join(newpaths)
-
 
 if os.name == 'posix' and sys.platform != 'darwin':
     os.environ['CFLAGS'] = '-I/usr/include/glm'
@@ -93,7 +84,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='pytessel',
-    version="1.0.2",
+    version="1.1.0",
     author="Ivo Filot",
     author_email="ivo@ivofilot.nl",
     description="Python package for building isosurfaces from 3D scalar fields",
