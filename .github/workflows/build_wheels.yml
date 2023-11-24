@@ -7,11 +7,10 @@ on:
     branches:
       - master
       - develop
+    tags:
   release:
     types:
       - published
-  push:
-    tags:
 
 jobs:
   build_wheels:
