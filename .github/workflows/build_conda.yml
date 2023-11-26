@@ -26,7 +26,7 @@ jobs:
           pip install pyyaml
       - name: Test versions
         run: |
-          python deploy/check_version.py
+          python testversion.py
 
 #-------------------------------------------------------------------------------
 # Anaconda / Windows
