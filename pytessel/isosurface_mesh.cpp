@@ -39,13 +39,9 @@ IsoSurfaceMesh::IsoSurfaceMesh(const std::shared_ptr<const ScalarField>& _sf,
  */
 void IsoSurfaceMesh::construct_mesh(bool center_mesh) {
    // grab center
-    this->center = this->sf->get_mat_unitcell() * glm::vec3(0.5, 0.5, 0.5);
+    this->center = this->sf->get_mat_unitcell() * Vec3(0.5, 0.5, 0.5);
 
     for(unsigned int i=0; i<this->is->get_triangles_ptr()->size(); i++) {
-        this->texcoords.push_back(glm::vec2(0,0));
-        this->texcoords.push_back(glm::vec2(0,1));
-        this->texcoords.push_back(glm::vec2(1,0));
-
         // load all index vertices in a map; this operation needs to be done, else a SEGFAULT
         // will be thrown further down the lines
         this->get_index_vertex(is->get_triangles_ptr()->at(i).p1);
@@ -66,21 +62,21 @@ void IsoSurfaceMesh::construct_mesh(bool center_mesh) {
     #pragma omp parallel for schedule(static)
     for(unsigned int i=0; i<this->vertices.size(); i++) {
         // get derivatives
-        double dx0 = sf->get_value_interp(this->vertices[i][0] - dev, this->vertices[i][1], this->vertices[i][2]);
-        double dx1 = sf->get_value_interp(this->vertices[i][0] + dev, this->vertices[i][1], this->vertices[i][2]);
+        double dx0 = sf->get_value_interp(this->vertices[i].x - dev, this->vertices[i].y, this->vertices[i].z);
+        double dx1 = sf->get_value_interp(this->vertices[i].x + dev, this->vertices[i].y, this->vertices[i].z);
 
-        double dy0 = sf->get_value_interp(this->vertices[i][0], this->vertices[i][1] - dev, this->vertices[i][2]);
-        double dy1 = sf->get_value_interp(this->vertices[i][0], this->vertices[i][1] + dev, this->vertices[i][2]);
+        double dy0 = sf->get_value_interp(this->vertices[i].x, this->vertices[i].y - dev, this->vertices[i].z);
+        double dy1 = sf->get_value_interp(this->vertices[i].x, this->vertices[i].y + dev, this->vertices[i].z);
 
-        double dz0 = sf->get_value_interp(this->vertices[i][0], this->vertices[i][1], this->vertices[i][2] - dev);
-        double dz1 = sf->get_value_interp(this->vertices[i][0], this->vertices[i][1], this->vertices[i][2] + dev);
+        double dz0 = sf->get_value_interp(this->vertices[i].x, this->vertices[i].y, this->vertices[i].z - dev);
+        double dz1 = sf->get_value_interp(this->vertices[i].x, this->vertices[i].y, this->vertices[i].z + dev);
 
-        glm::vec3 normal((dx1 - dx0) / (2.0 * dev),
-                         (dy1 - dy0) / (2.0 * dev),
-                         (dz1 - dz0) / (2.0 * dev));
-        normal = -glm::normalize(normal); // the negative of the gradient is the correct normal
+        Vec3 normal((dx1 - dx0) / (2.0 * dev),
+                    (dy1 - dy0) / (2.0 * dev),
+                    (dz1 - dz0) / (2.0 * dev));
+        normal = -1 * normal.normalized(); // the negative of the gradient is the correct normal
 
-        this->normals[i] = normal * sgn(sf->get_value_interp(this->vertices[i][0], this->vertices[i][1], this->vertices[i][2]));
+        this->normals[i] = normal * sgn(sf->get_value_interp(this->vertices[i].x, this->vertices[i].y, this->vertices[i].z));
     }
 
     // build indices in right orientation based on face normal
@@ -91,9 +87,9 @@ void IsoSurfaceMesh::construct_mesh(bool center_mesh) {
         unsigned int id3 = this->get_index_vertex(is->get_triangles_ptr()->at(i).p3);
 
         // calculate the orientation of the face with respect to the normal
-        const glm::vec3 face_normal = (this->normals[id1] + this->normals[id2] + this->normals[id3]) / 3.0f;
-        const glm::vec3 orientation_face = glm::normalize(glm::cross(this->vertices[id2] - this->vertices[id1], this->vertices[id3] - this->vertices[id1]));
-        const float orientation = glm::dot(face_normal, orientation_face);
+        const Vec3 face_normal = (this->normals[id1] + this->normals[id2] + this->normals[id3]) / 3.0f;
+        const Vec3 orientation_face = ((this->vertices[id2] - this->vertices[id1]).cross(this->vertices[id3] - this->vertices[id1])).normalized();
+        const float orientation = face_normal.dot(orientation_face);
 
         // if orientation is positive, the orientation is correct, if it is negative, the orientation is incorrect and two indices should be swapped
         if(orientation > 0.0f) {
@@ -109,7 +105,7 @@ void IsoSurfaceMesh::construct_mesh(bool center_mesh) {
 
     // center structure
     if(center_mesh) {
-        glm::vec3 sum = this->sf->get_mat_unitcell() * glm::vec3(0.5f, 0.5f, 0.5f);
+        Vec3 sum = this->sf->get_mat_unitcell() * Vec3(0.5f, 0.5f, 0.5f);
 
         #pragma omp parallel for
         for(unsigned int i=0; i<this->vertices.size(); i++) {
@@ -125,7 +121,7 @@ void IsoSurfaceMesh::construct_mesh(bool center_mesh) {
  *
  * @return     the index
  */
-unsigned int IsoSurfaceMesh::get_index_vertex(const glm::vec3 v) {
+unsigned int IsoSurfaceMesh::get_index_vertex(const Vec3 v) {
     auto got = this->vertices_map.find(v);
     if(got != this->vertices_map.end()) {
         return got->second;
@@ -136,11 +132,11 @@ unsigned int IsoSurfaceMesh::get_index_vertex(const glm::vec3 v) {
 }
 
 std::vector<float> IsoSurfaceMesh::get_vertices() const {
-    return std::vector<float>(&this->vertices[0][0], &this->vertices[0][0] + this->vertices.size() * 3);
+    return std::vector<float>(&this->vertices[0].x, &this->vertices[0].x + this->vertices.size() * 3);
 }
 
 std::vector<float> IsoSurfaceMesh::get_normals() const {
-    return std::vector<float>(&this->normals[0][0], &this->normals[0][0] + this->normals.size() * 3);
+    return std::vector<float>(&this->normals[0].x, &this->normals[0].x + this->normals.size() * 3);
 }
 
 const std::vector<unsigned int>& IsoSurfaceMesh::get_indices() const {

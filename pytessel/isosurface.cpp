@@ -75,44 +75,44 @@ float Cube::get_value_from_vertex(unsigned int _p) const {
     return this->values[_p];
 }
 
-glm::vec3 Cube::get_position_from_vertex(unsigned int _p) const {
-    glm::vec3 c;
+Vec3 Cube::get_position_from_vertex(unsigned int _p) const {
+    Vec3 c;
     if(_p == 0) {
-        c[0] = (float)this->i;
-        c[1] = (float)this->j;
-        c[2] = (float)this->k;
+        c.x = (float)this->i;
+        c.y = (float)this->j;
+        c.z = (float)this->k;
     } else if(_p == 1) {
-        c[0] = (float)this->i;
-        c[1] = (float)this->j+1;
-        c[2] = (float)this->k;
+        c.x = (float)this->i;
+        c.y = (float)this->j+1;
+        c.z = (float)this->k;
     } else if(_p == 2) {
-        c[0] = (float)this->i+1;
-        c[1] = (float)this->j+1;
-        c[2] = (float)this->k;
+        c.x = (float)this->i+1;
+        c.y = (float)this->j+1;
+        c.z = (float)this->k;
     } else if(_p == 3) {
-        c[0] = (float)this->i+1;
-        c[1] = (float)this->j;
-        c[2] = (float)this->k;
+        c.x = (float)this->i+1;
+        c.y = (float)this->j;
+        c.z = (float)this->k;
     } else if(_p == 4) {
-        c[0] = (float)this->i;
-        c[1] = (float)this->j;
-        c[2] = (float)this->k+1;
+        c.x = (float)this->i;
+        c.y = (float)this->j;
+        c.z = (float)this->k+1;
     } else if(_p == 5) {
-        c[0] = (float)this->i;
-        c[1] = (float)this->j+1;
-        c[2] = (float)this->k+1;
+        c.x = (float)this->i;
+        c.y = (float)this->j+1;
+        c.z = (float)this->k+1;
     } else if(_p == 6) {
-        c[0] = (float)this->i+1;
-        c[1] = (float)this->j+1;
-        c[2] = (float)this->k+1;
+        c.x = (float)this->i+1;
+        c.y = (float)this->j+1;
+        c.z = (float)this->k+1;
     } else if(_p == 7) {
-        c[0] = (float)this->i+1;
-        c[1] = (float)this->j;
-        c[2] = (float)this->k+1;
+        c.x = (float)this->i+1;
+        c.y = (float)this->j;
+        c.z = (float)this->k+1;
     } else {
-        c[0] = 0;
-        c[1] = 0;
-        c[2] = 0;
+        c.x = 0;
+        c.y = 0;
+        c.z = 0;
     }
 
     return c;
@@ -149,60 +149,60 @@ Tetrahedron::Tetrahedron(unsigned int _i, unsigned int _j, unsigned int _k,
             values[1] = _vp.get_value(_i+1, _j+1, _k);
             values[2] = _vp.get_value(_i+1, _j    , _k);
             values[3] = _vp.get_value(_i+1, _j    , _k+1);
-            pos[0][0] = _i     ; pos[0][1] = _j     ; pos[0][2] = _k     ;
-            pos[1][0] = _i+1   ; pos[1][1] = _j+1 ; pos[1][2] = _k     ;
-            pos[2][0] = _i+1   ; pos[2][1] = _j     ; pos[2][2] = _k     ;
-            pos[3][0] = _i+1   ; pos[3][1] = _j     ; pos[3][2] = _k+1 ;
+            pos[0].x = _i     ; pos[0].y = _j     ; pos[0].z = _k     ;
+            pos[1].x = _i+1   ; pos[1].y = _j+1 ; pos[1].z = _k     ;
+            pos[2].x = _i+1   ; pos[2].y = _j     ; pos[2].z = _k     ;
+            pos[3].x = _i+1   ; pos[3].y = _j     ; pos[3].z = _k+1 ;
         break;
         case 1: // 0 2 6 7
             values[0] = _vp.get_value(_i,     _j,     _k);
             values[1] = _vp.get_value(_i+1, _j+1, _k);
             values[2] = _vp.get_value(_i+1, _j+1, _k+1);
             values[3] = _vp.get_value(_i+1, _j ,    _k+1);
-            pos[0][0] = _i     ; pos[0][1] = _j     ; pos[0][2] = _k     ;
-            pos[1][0] = _i+1   ; pos[1][1] = _j+1 ; pos[1][2] = _k     ;
-            pos[2][0] = _i+1   ; pos[2][1] = _j+1 ; pos[2][2] = _k+1 ;
-            pos[3][0] = _i+1   ; pos[3][1] = _j     ; pos[3][2] = _k+1 ;
+            pos[0].x = _i     ; pos[0].y = _j     ; pos[0].z = _k     ;
+            pos[1].x = _i+1   ; pos[1].y = _j+1 ; pos[1].z = _k     ;
+            pos[2].x = _i+1   ; pos[2].y = _j+1 ; pos[2].z = _k+1 ;
+            pos[3].x = _i+1   ; pos[3].y = _j     ; pos[3].z = _k+1 ;
         break;
         case 2: // 0 4 6 7
             values[0] = _vp.get_value(_i, _j, _k);
             values[1] = _vp.get_value(_i, _j, _k+1);
             values[2] = _vp.get_value(_i+1, _j+1, _k+1);
             values[3] = _vp.get_value(_i+1, _j ,    _k+1);
-            pos[0][0] = _i     ; pos[0][1] = _j     ; pos[0][2] = _k     ;
-            pos[1][0] = _i     ; pos[1][1] = _j     ; pos[1][2] = _k+1 ;
-            pos[2][0] = _i+1   ; pos[2][1] = _j+1 ; pos[2][2] = _k+1 ;
-            pos[3][0] = _i+1   ; pos[3][1] = _j     ; pos[3][2] = _k+1 ;
+            pos[0].x = _i     ; pos[0].y = _j     ; pos[0].z = _k     ;
+            pos[1].x = _i     ; pos[1].y = _j     ; pos[1].z = _k+1 ;
+            pos[2].x = _i+1   ; pos[2].y = _j+1 ; pos[2].z = _k+1 ;
+            pos[3].x = _i+1   ; pos[3].y = _j     ; pos[3].z = _k+1 ;
         break;
         case 3: // 0 6 1 2
             values[0] = _vp.get_value(_i, _j, _k);
             values[1] = _vp.get_value(_i+1, _j+1, _k+1);
             values[2] = _vp.get_value(_i, _j+1, _k);
             values[3] = _vp.get_value(_i+1, _j+1, _k);
-            pos[0][0] = _i     ; pos[0][1] = _j     ; pos[0][2] = _k     ;
-            pos[1][0] = _i+1   ; pos[1][1] = _j+1 ; pos[1][2] = _k+1 ;
-            pos[2][0] = _i     ; pos[2][1] = _j+1 ; pos[2][2] = _k     ;
-            pos[3][0] = _i+1   ; pos[3][1] = _j+1 ; pos[3][2] = _k     ;
+            pos[0].x = _i     ; pos[0].y = _j     ; pos[0].z = _k     ;
+            pos[1].x = _i+1   ; pos[1].y = _j+1 ; pos[1].z = _k+1 ;
+            pos[2].x = _i     ; pos[2].y = _j+1 ; pos[2].z = _k     ;
+            pos[3].x = _i+1   ; pos[3].y = _j+1 ; pos[3].z = _k     ;
         break;
         case 4: // 0 6 1 4
             values[0] = _vp.get_value(_i, _j, _k);
             values[1] = _vp.get_value(_i+1, _j+1, _k+1);
             values[2] = _vp.get_value(_i, _j+1, _k);
             values[3] = _vp.get_value(_i, _j, _k+1);
-            pos[0][0] = _i     ; pos[0][1] = _j     ; pos[0][2] = _k     ;
-            pos[1][0] = _i+1   ; pos[1][1] = _j+1 ; pos[1][2] = _k+1 ;
-            pos[2][0] = _i     ; pos[2][1] = _j+1 ; pos[2][2] = _k     ;
-            pos[3][0] = _i     ; pos[3][1] = _j     ; pos[3][2] = _k+1 ;
+            pos[0].x = _i     ; pos[0].y = _j     ; pos[0].z = _k     ;
+            pos[1].x = _i+1   ; pos[1].y = _j+1 ; pos[1].z = _k+1 ;
+            pos[2].x = _i     ; pos[2].y = _j+1 ; pos[2].z = _k     ;
+            pos[3].x = _i     ; pos[3].y = _j     ; pos[3].z = _k+1 ;
         break;
         case 5: // 5 6 1 4
             values[0] = _vp.get_value(_i, _j+1, _k+1);
             values[1] = _vp.get_value(_i+1, _j+1, _k+1);
             values[2] = _vp.get_value(_i, _j+1, _k);
             values[3] = _vp.get_value(_i, _j, _k+1);
-            pos[0][0] = _i     ; pos[0][1] = _j+1 ; pos[0][2] = _k+1 ;
-            pos[1][0] = _i+1   ; pos[1][1] = _j+1 ; pos[1][2] = _k+1 ;
-            pos[2][0] = _i     ; pos[2][1] = _j+1 ; pos[2][2] = _k     ;
-            pos[3][0] = _i     ; pos[3][1] = _j     ; pos[3][2] = _k+1 ;
+            pos[0].x = _i     ; pos[0].y = _j+1 ; pos[0].z = _k+1 ;
+            pos[1].x = _i+1   ; pos[1].y = _j+1 ; pos[1].z = _k+1 ;
+            pos[2].x = _i     ; pos[2].y = _j+1 ; pos[2].z = _k     ;
+            pos[3].x = _i     ; pos[3].y = _j   ; pos[3].z = _k+1 ;
         break;
         default:
             exit(-1);
@@ -224,7 +224,7 @@ float Tetrahedron::get_value_from_vertex(unsigned int _p) const {
     return this->values[_p];
 }
 
-const glm::vec3& Tetrahedron::get_position_from_vertex(unsigned int _p) const {
+const Vec3& Tetrahedron::get_position_from_vertex(unsigned int _p) const {
     return pos[_p];
 }
 
@@ -232,54 +232,54 @@ const glm::vec3& Tetrahedron::get_position_from_vertex(unsigned int _p) const {
  *  TRIANGLE  *
  **************/
 
-Triangle::Triangle(const glm::vec3 &_p1, const glm::vec3 &_p2, const glm::vec3 &_p3) {
+Triangle::Triangle(const Vec3 &_p1, const Vec3 &_p2, const Vec3 &_p3) {
     this->p1 = _p1;
     this->p2 = _p2;
     this->p3 = _p3;
 }
 
 void Triangle::transform_to_real(const ScalarField &_vp) {
-    p1 = _vp.grid_to_realspace(p1[0], p1[1], p1[2]);
-    p2 = _vp.grid_to_realspace(p2[0], p2[1], p2[2]);
-    p3 = _vp.grid_to_realspace(p3[0], p3[1], p3[2]);
+    p1 = _vp.grid_to_realspace(p1.x, p1.y, p1.z);
+    p2 = _vp.grid_to_realspace(p2.x, p2.y, p2.z);
+    p3 = _vp.grid_to_realspace(p3.x, p3.y, p3.z);
 }
 
 float Triangle::get_x(unsigned int i) const {
     switch(i) {
         case 0:
-            return p1[0];
+            return p1.x;
         case 1:
-            return p2[0];
+            return p2.x;
         case 2:
-            return p3[0];
+            return p3.x;
         default:
-            return p1[0];
+            return p1.x;
     }
 }
 
 float Triangle::get_y(unsigned int i) const {
     switch(i) {
         case 0:
-            return p1[1];
+            return p1.y;
         case 1:
-            return p2[1];
+            return p2.y;
         case 2:
-            return p3[1];
+            return p3.y;
         default:
-            return p1[1];
+            return p1.y;
     }
 }
 
 float Triangle::get_z(unsigned int i) const {
     switch(i) {
         case 0:
-            return p1[2];
+            return p1.z;
         case 1:
-            return p2[2];
+            return p2.z;
         case 2:
-            return p3[2];
+            return p3.z;
         default:
-            return p1[2];
+            return p1.z;
     }
 }
 
@@ -382,11 +382,11 @@ void IsoSurface::construct_triangles_from_cubes(float _isovalue) {
     for(unsigned int i=0; i < cube_table.size(); i++) {
 
         uint8_t cubeindex = cube_table[i].get_cube_index();
-        glm::vec3 vertices_list[12];
+        Vec3 vertices_list[12];
 
         /* Find the vertices where the surface intersects the cube, perform
-        an interpolation of 2 (glm::vec3) coordinates and 2 values and the isovalue,
-        return one (glm::vec3) coordinate as the result */
+        an interpolation of 2 (Vec3) coordinates and 2 values and the isovalue,
+        return one (Vec3) coordinate as the result */
         if (edge_table[cubeindex] & (1 << 0))
             vertices_list[0] =
                 this->interpolate_from_cubes(cube_table[i], 0, 1, _isovalue);
@@ -442,7 +442,7 @@ void IsoSurface::construct_triangles_from_tetrahedra(float _isovalue) {
     for(unsigned int i=0; i < tetrahedra_table.size(); i++) {
 
         unsigned int tetidx = tetrahedra_table[i].get_tetrahedron_index();
-        glm::vec3 p[3];
+        Vec3 p[3];
 
         switch(tetidx) {
             case 0x0E:
@@ -506,15 +506,15 @@ void IsoSurface::construct_triangles_from_tetrahedra(float _isovalue) {
     }
 }
 
-glm::vec3 IsoSurface::interpolate_from_cubes(const Cube &_cub, unsigned int _p1,
+Vec3 IsoSurface::interpolate_from_cubes(const Cube &_cub, unsigned int _p1,
     unsigned int _p2, float _isovalue) {
     float v1 = _cub.get_value_from_vertex(_p1);
     float v2 = _cub.get_value_from_vertex(_p2);
 
-    glm::vec3 p1 = _cub.get_position_from_vertex(_p1);
-    glm::vec3 p2 = _cub.get_position_from_vertex(_p2);
+    Vec3 p1 = _cub.get_position_from_vertex(_p1);
+    Vec3 p2 = _cub.get_position_from_vertex(_p2);
 
-    glm::vec3 p;
+    Vec3 p;
     float mu;
 
     if(std::abs(_isovalue-v1) < PRECISION_LIMIT)
@@ -526,22 +526,22 @@ glm::vec3 IsoSurface::interpolate_from_cubes(const Cube &_cub, unsigned int _p1,
 
     mu = (_isovalue - v1) / (v2 - v1);
 
-    p[0] = p1[0] + mu * (p2[0] - p1[0]);
-    p[1] = p1[1] + mu * (p2[1] - p1[1]);
-    p[2] = p1[2] + mu * (p2[2] - p1[2]);
+    p.x = p1.x + mu * (p2.x - p1.x);
+    p.y = p1.y + mu * (p2.y - p1.y);
+    p.z = p1.z + mu * (p2.z - p1.z);
 
     return p;
 }
 
-glm::vec3 IsoSurface::interpolate_from_tetrahedra(const Tetrahedron &_tet,
+Vec3 IsoSurface::interpolate_from_tetrahedra(const Tetrahedron &_tet,
     unsigned int _p1, unsigned int _p2, float _isovalue) {
     float v1 = _tet.get_value_from_vertex(_p1);
     float v2 = _tet.get_value_from_vertex(_p2);
 
-    glm::vec3 p1 = _tet.get_position_from_vertex(_p1);
-    glm::vec3 p2 = _tet.get_position_from_vertex(_p2);
+    Vec3 p1 = _tet.get_position_from_vertex(_p1);
+    Vec3 p2 = _tet.get_position_from_vertex(_p2);
 
-    glm::vec3 p;
+    Vec3 p;
     float mu;
 
     if(std::abs(_isovalue-v1) < PRECISION_LIMIT)
@@ -553,9 +553,9 @@ glm::vec3 IsoSurface::interpolate_from_tetrahedra(const Tetrahedron &_tet,
 
     mu = (_isovalue - v1) / (v2 - v1);
 
-    p[0] = p1[0] + mu * (p2[0] - p1[0]);
-    p[1] = p1[1] + mu * (p2[1] - p1[1]);
-    p[2] = p1[2] + mu * (p2[2] - p1[2]);
+    p.x = p1.x + mu * (p2.x - p1.x);
+    p.y = p1.y + mu * (p2.y - p1.y);
+    p.z = p1.z + mu * (p2.z - p1.z);
 
     return p;
 }

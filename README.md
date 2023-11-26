@@ -1,6 +1,7 @@
 # PyTessel
 
-[![C/C++ CI](https://github.com/ifilot/pytessel/actions/workflows/build.yml/badge.svg)](https://github.com/ifilot/pytessel/actions/workflows/build.yml)
+[![CI](https://github.com/ifilot/pytessel/actions/workflows/build_conda.yml/badge.svg)](https://github.com/ifilot/pytessel/actions/workflows/build_Conda.yml)
+[![CI](https://github.com/ifilot/pytessel/actions/workflows/build_wheels.yml/badge.svg)](https://github.com/ifilot/pytessel/actions/workflows/build_wheels.yml)
 [![Anaconda-Server Badge](https://anaconda.org/ifilot/pytessel/badges/version.svg)](https://anaconda.org/ifilot/pytessel)
 [![PyPI](https://img.shields.io/pypi/v/pytessel?color=green)](https://pypi.org/project/pytessel/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
@@ -140,5 +141,5 @@ if __name__ == '__main__':
 ## Local compilation (Linux)
 
 ```bash
-python3 setup.py build_ext --inplace
+python3 setup.py build_ext --inplace bdist
 ```
