@@ -84,7 +84,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='pytessel',
-    version="1.1.0",
+    version="1.1.1",
     author="Ivo Filot",
     author_email="ivo@ivofilot.nl",
     description="Python package for building isosurfaces from 3D scalar fields",

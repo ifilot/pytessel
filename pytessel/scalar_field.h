@@ -25,8 +25,6 @@
 #include <array>
 #include <algorithm>
 
-typedef float mat33[3][3];
-
 #include "vec3.h"
 
 class ScalarField{
