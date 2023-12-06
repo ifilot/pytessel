@@ -1,6 +1,8 @@
 #ifndef _VEC3_H
 #define _VEC3_H
 
+typedef float mat33[3][3];
+
 /**
  * Custom 3-vector class
 */
