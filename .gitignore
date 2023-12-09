@@ -149,3 +149,4 @@ test.py
 nose_debug
 test.ply
 .vscode
+*.ply
