@@ -92,5 +92,13 @@ public:
         return this->unitcell;
     }
 
+    inline const mat33& get_mat_inverse() const {
+        return this->unitcell_inverse;
+    }
+
+    std::vector<float> get_unitcell_vf() const;
+
+    std::vector<float> get_unitcell_inverse() const;
+
 private:
 };
