@@ -1,8 +1,40 @@
-import subprocess
 from setuptools import Extension, setup
 from Cython.Build import cythonize
 import os
 import sys
+import re
+
+PKG = "pytessel"
+VERSIONFILE = os.path.join(os.path.dirname(__file__), PKG, "_version.py")
+verstr = "unknown"
+try:
+    verstrline = open(VERSIONFILE, "rt").read()
+except EnvironmentError:
+    pass # Okay, there is no version file.
+else:
+    VSRE = r"^__version__ = ['\"]([^'\"]*)['\"]"
+    mo = re.search(VSRE, verstrline, re.M)
+    if mo:
+        verstr = mo.group(1)
+    else:
+        print(r"Unable to find version in %s" % (VERSIONFILE,))
+        raise RuntimeError(r"If %s.py exists, it is required to be well-formed" % (VERSIONFILE,))
+
+PKG = "pytessel"
+VERSIONFILE = os.path.join(os.path.dirname(__file__), PKG, "_version.py")
+verstr = "unknown"
+try:
+    verstrline = open(VERSIONFILE, "rt").read()
+except EnvironmentError:
+    pass # Okay, there is no version file.
+else:
+    VSRE = r"^__version__ = ['\"]([^'\"]*)['\"]"
+    mo = re.search(VSRE, verstrline, re.M)
+    if mo:
+        verstr = mo.group(1)
+    else:
+        print(r"Unable to find version in %s" % (VERSIONFILE,))
+        raise RuntimeError(r"If %s.py exists, it is required to be well-formed" % (VERSIONFILE,))
 
 def find_windows_versions():
     """
@@ -59,14 +91,12 @@ if os.name == 'nt':
         os.environ['PATH'] = ";".join(newpaths)
 
 if os.name == 'posix' and sys.platform != 'darwin':
-    os.environ['CFLAGS'] = '-I/usr/include/glm'
     extra_compile_args = ["-Wno-date-time", "-fopenmp", "-fPIC"]
     extra_link_args = ["-fopenmp"]
 elif os.name == 'nt':
     extra_compile_args = ["/wd4244"]
     extra_link_args = []
 elif sys.platform == 'darwin':
-    os.environ['CFLAGS'] = '-I/usr/local/Cellar/boost/1.81.0_1/include -I /usr/local/Cellar/glm/0.9.9.8/include'
     extra_compile_args = ["-Wno-date-time", "-fPIC", "-std=c++14"]
     extra_link_args = []
 
@@ -83,8 +113,8 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name='pytessel',
-    version="1.1.1",
+    name=PKG,
+    version="1.2.0",
     author="Ivo Filot",
     author_email="ivo@ivofilot.nl",
     description="Python package for building isosurfaces from 3D scalar fields",
@@ -94,7 +124,7 @@ setup(
     ext_modules=cythonize(ext_modules[0],
                           language_level = "3",
                           build_dir="build"),
-    packages=['pytessel'],
+    packages=[PKG],
     include_package_data=True,
     classifiers=[
         "Programming Language :: Python :: 3",

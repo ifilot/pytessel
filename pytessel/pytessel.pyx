@@ -6,13 +6,58 @@ from libcpp.string cimport string
 from libcpp.memory cimport shared_ptr,make_shared
 import numpy as np
 import sys
+import cython
+import numpy.typing as npt
 
 cdef class PyTessel:
 
     def __cinit__(self):
         pass
 
-    def marching_cubes(self, vector[float] grid, vector[uint] dimensions, vector[float] unitcell, float isovalue):
+    @cython.embedsignature(True)
+    def marching_cubes(self, vector[float] grid, vector[uint] dimensions, vector[float] unitcell, float isovalue) -> \
+            (npt.NDArray[np.float64], npt.NDArray[np.float64], npt.NDArray[np.float64]):
+        """
+        Perform marching cubes algorithm to generate isosurface
+
+        Parameters
+        ----------
+        grid : Iterable of floats
+            Scalar field as a flattened array
+        dimensions : Iterable of ints
+            Dimensions of the scalar field grid (nx, ny, nz)
+        unitcell : Iterable of floats
+            Unitcell matrix (flattened)
+        isovalue : float
+            Isovalue of the isosurface
+               
+        Returns
+        -------
+        vertices : (Nx3) numpy array of floats
+            Triangle vertices
+        normals : (Nx3) numpy array of floats
+            Triangle normals (at the vertices)
+        indices : numpy array of ints
+            Triangle indices
+        
+        Notes
+        -----
+        * The scalar field needs to be encoded such that the z-coordinate is the slowest moving
+          index and the x-coordinate the fastest moving index.
+        * The dimensions of the scalar field are encoded in the order :code:`(nx, ny, nz)`.
+        * You can use :code:`reversed(grid.shape)` to pass the dimensions.
+        * The output of the :code:`marching_cubes` function are three arrays, corresponding to the
+          vertices, the normals, and the indices of the isosurface. The isosurface corresponds to
+          a number of linked triangles (polygons) whose vertices are stored in the :code:`vertices`
+          array. For each vertex, the normal vector is encoded in the :code:`normals` array. Finally,
+          the triangles are stored as a triplet of indices in the :code:`indices` array. These indices
+          refer to the position in the :code:`vertices` and :code:`normals` array. Because multiple
+          triangles can use the same vertices, this is an efficient way to store the isosurface.
+        * One rarely needs to perform any operations on the :code:`vertices`, :code:`normals` and
+          :code:`indices` arrays. Typically, these arrays are constructed and immediately relayed
+          to the :code:`write_ply` function to store them as a file which can be used in another
+          program. 
+        """
         cdef shared_ptr[ScalarField] scalarfield
         cdef shared_ptr[IsoSurface] isosurface
         cdef shared_ptr[IsoSurfaceMesh] isosurface_mesh
@@ -35,7 +80,30 @@ cdef class PyTessel:
 
         return vertices, normals, indices
 
-    def write_ply(self, filename, vertices, normals, indices):
+    @cython.embedsignature(True)
+    def write_ply(self, filename:str, vertices:npt.NDArray[np.float64], normals:npt.NDArray[np.float64], indices:npt.NDArray[np.uint32]) -> None:
+        """Stores isosurface as .ply file
+
+        Parameters
+        ----------
+        filename : str
+            Path to file
+        vertices : Iterable of floats
+            Array of vertices
+        normals : Iterable of floats
+            Array of normals
+        indices : Iterable of ints
+            Array of triangle indices
+            
+        Returns
+        -------
+        None
+        
+        Notes
+        -----
+        * This function is designed to be used with :code:`marching_cubes`. One can directly relay the output
+          of :code:`marching_cube` as the input for :code:`write_ply`.
+        """
         f = open(filename, 'wb')
 
         f.write(b"ply\n")
