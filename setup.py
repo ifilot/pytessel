@@ -59,14 +59,12 @@ if os.name == 'nt':
         os.environ['PATH'] = ";".join(newpaths)
 
 if os.name == 'posix' and sys.platform != 'darwin':
-    os.environ['CFLAGS'] = '-I/usr/include/glm'
     extra_compile_args = ["-Wno-date-time", "-fopenmp", "-fPIC"]
     extra_link_args = ["-fopenmp"]
 elif os.name == 'nt':
     extra_compile_args = ["/wd4244"]
     extra_link_args = []
 elif sys.platform == 'darwin':
-    os.environ['CFLAGS'] = '-I/usr/local/Cellar/boost/1.81.0_1/include -I /usr/local/Cellar/glm/0.9.9.8/include'
     extra_compile_args = ["-Wno-date-time", "-fPIC", "-std=c++14"]
     extra_link_args = []
 

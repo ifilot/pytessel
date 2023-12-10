@@ -60,6 +60,11 @@ float ScalarField::get_value_interp(float x, float y, float z) const {
     // cast the input to the nearest grid point
     Vec3 r = this->realspace_to_grid(x,y,z);
 
+    // recast
+    if(r.x < 0.0) r.x += (float)this->grid_dimensions[0];
+    if(r.y < 0.0) r.y += (float)this->grid_dimensions[1];
+    if(r.z < 0.0) r.z += (float)this->grid_dimensions[2];
+
     // calculate value using trilinear interpolation
     float xd = remainderf(r.x, 1.0);
     float yd = remainderf(r.y, 1.0);
@@ -69,12 +74,12 @@ float ScalarField::get_value_interp(float x, float y, float z) const {
     if(yd < 0) yd += 1.0;
     if(zd < 0) zd += 1.0;
 
-    float x0 = floor(r.x);
-    float x1 = ceil(r.x);
-    float y0 = floor(r.y);
-    float y1 = ceil(r.y);
-    float z0 = floor(r.z);
-    float z1 = ceil(r.z);
+    float x0 = fmod(floor(r.x), this->grid_dimensions[0]);
+    float x1 = fmod(ceil(r.x), this->grid_dimensions[0]);
+    float y0 = fmod(floor(r.y), this->grid_dimensions[1]);
+    float y1 = fmod(ceil(r.y), this->grid_dimensions[1]);
+    float z0 = fmod(floor(r.z), this->grid_dimensions[2]);
+    float z1 = fmod(ceil(r.z), this->grid_dimensions[2]);
 
     return
     this->get_value(x0, y0, z0) * (1.0 - xd) * (1.0 - yd) * (1.0 - zd) +
@@ -169,9 +174,9 @@ Vec3 ScalarField::realspace_to_direct(float x, float y, float z) const {
 Vec3 ScalarField::realspace_to_grid(float i, float j, float k) const {
     Vec3 g = this->realspace_to_direct(i, j, k);
 
-    g.x *= float(this->grid_dimensions[0]-1);
-    g.y *= float(this->grid_dimensions[1]-1);
-    g.z *= float(this->grid_dimensions[2]-1);
+    g.x *= float(this->grid_dimensions[0]);
+    g.y *= float(this->grid_dimensions[1]);
+    g.z *= float(this->grid_dimensions[2]);
 
     return g;
 }
@@ -207,4 +212,28 @@ void ScalarField::inverse(const mat33& mat, mat33* invmat) {
     (*invmat)[2][0] = (mat[1][0] * mat[2][1] - mat[2][0] * mat[1][1]) * invdet;
     (*invmat)[2][1] = (mat[2][0] * mat[0][1] - mat[0][0] * mat[2][1]) * invdet;
     (*invmat)[2][2] = (mat[0][0] * mat[1][1] - mat[1][0] * mat[0][1]) * invdet;
+}
+
+std::vector<float> ScalarField::get_unitcell_vf() const {
+    std::vector<float> ans(9,0.0);
+
+    for(unsigned int i=0; i<3; i++) {
+        for(unsigned int j=0; j<3; j++) {
+            ans[i*3 + j] = this->unitcell[i][j];
+        }
+    }
+
+    return ans;
+}
+
+std::vector<float> ScalarField::get_unitcell_inverse() const {
+    std::vector<float> ans(9,0.0);
+
+    for(unsigned int i=0; i<3; i++) {
+        for(unsigned int j=0; j<3; j++) {
+            ans[i*3 + j] = this->unitcell_inverse[i][j];
+        }
+    }
+
+    return ans;
 }
