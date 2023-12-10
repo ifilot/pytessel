@@ -12,4 +12,4 @@ test-requires = "pytest numpy cython"
 test-command = "pytest {project}/tests"
 
 # skip PyPy wheels
-skip = ["pp*"]
+skip = ["pp*", "cp36-*"]
