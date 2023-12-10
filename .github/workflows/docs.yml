@@ -9,11 +9,9 @@ on:
 jobs:
   build-docs:
     runs-on: ubuntu-latest
-    container: ghcr.io/ifilot/sphinx:v0.6.0
+    container: ghcr.io/ifilot/sphinx:v0.7.0
     steps:
     - uses: actions/checkout@v3
-    - name: Install additional packages
-      run: pip3 install cython
     - name: Perform inplace compilation
       run: python3 setup.py build_ext --inplace
     - name: Build documentation
