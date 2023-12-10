@@ -35,7 +35,10 @@ def main():
         isovalue = 3.75
         
         start = time.time()
-        vertices, normals, indices = pytessel.marching_cubes(field.flatten(), field.shape, unitcell.flatten(), isovalue)
+        vertices, normals, indices = pytessel.marching_cubes(field.flatten(), 
+                                                             reversed(field.shape), 
+                                                             unitcell.flatten(), 
+                                                             isovalue)
         end = time.time()
         isosurface_times.append(end - start)
     
@@ -87,7 +90,7 @@ def icosahedron_field(x,y,z):
         [-phi,0,1]
     ]
     
-    xx,yy,zz = np.meshgrid(x,y,z)
+    zz,yy,xx = np.meshgrid(z,y,x,indexing='ij')
     field = np.zeros_like(xx)
     for v in vertices:
         field += f(xx,yy,zz,v[0], v[1],v[2])
