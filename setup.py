@@ -1,8 +1,8 @@
-import subprocess
 from setuptools import Extension, setup
 from Cython.Build import cythonize
 import os
 import sys
+import re
 
 PKG = "pytessel"
 VERSIONFILE = os.path.join(os.path.dirname(__file__), PKG, "_version.py")
