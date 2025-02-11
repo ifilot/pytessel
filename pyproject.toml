@@ -1,3 +1,7 @@
+[project]
+name = "pytessel"
+version = "1.2.3"
+
 [build-system]
 requires = [
     "setuptools>=42",
