@@ -33,7 +33,8 @@ jobs:
               pydata-sphinx-theme \
               sphinx_design \
               sphinx_subfigure \
-              myst_parser
+              myst_parser \
+              pytessel
     - name: Build Documentation
       run: |
         cd docs
