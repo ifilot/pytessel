@@ -51,8 +51,14 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="background.html">Background</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">User Interface</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#isosurface-generation">Isosurface generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#storing-the-isosurface">Storing the isosurface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#isosurface-generation">Isosurface generation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pytessel.PyTessel.marching_cubes"><code class="docutils literal notranslate"><span class="pre">PyTessel.marching_cubes()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#storing-the-isosurface">Storing the isosurface</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pytessel.PyTessel.write_ply"><code class="docutils literal notranslate"><span class="pre">PyTessel.write_ply()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
@@ -86,9 +92,89 @@
 </ul>
 <section id="isosurface-generation">
 <h2>Isosurface generation<a class="headerlink" href="#isosurface-generation" title="Link to this heading"></a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytessel.PyTessel.marching_cubes">
+<span class="sig-prename descclassname"><span class="pre">PyTessel.</span></span><span class="sig-name descname"><span class="pre">marching_cubes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self,</span> <span class="pre">vector[float]</span> <span class="pre">grid,</span> <span class="pre">vector[unsigned</span> <span class="pre">int]</span> <span class="pre">dimensions,</span> <span class="pre">vector[float]</span> <span class="pre">unitcell,</span> <span class="pre">float</span> <span class="pre">isovalue)</span> <span class="pre">-&gt;</span> <span class="pre">(npt.NDArray[np.float64],</span> <span class="pre">npt.NDArray[np.float64],</span> <span class="pre">npt.NDArray[np.float64]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pytessel.PyTessel.marching_cubes" title="Link to this definition"></a></dt>
+<dd><p>Perform marching cubes algorithm to generate isosurface</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>grid<span class="classifier">Iterable of floats</span></dt><dd><p>Scalar field as a flattened array</p>
+</dd>
+<dt>dimensions<span class="classifier">Iterable of ints</span></dt><dd><p>Dimensions of the scalar field grid (nx, ny, nz)</p>
+</dd>
+<dt>unitcell<span class="classifier">Iterable of floats</span></dt><dd><p>Unitcell matrix (flattened)</p>
+</dd>
+<dt>isovalue<span class="classifier">float</span></dt><dd><p>Isovalue of the isosurface</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>vertices<span class="classifier">(Nx3) numpy array of floats</span></dt><dd><p>Triangle vertices</p>
+</dd>
+<dt>normals<span class="classifier">(Nx3) numpy array of floats</span></dt><dd><p>Triangle normals (at the vertices)</p>
+</dd>
+<dt>indices<span class="classifier">numpy array of ints</span></dt><dd><p>Triangle indices</p>
+</dd>
+</dl>
+</section>
+<section id="notes">
+<h3>Notes<a class="headerlink" href="#notes" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>The scalar field needs to be encoded such that the z-coordinate is the slowest moving
+index and the x-coordinate the fastest moving index.</p></li>
+<li><p>The dimensions of the scalar field are encoded in the order <code class="code docutils literal notranslate"><span class="pre">(nx,</span> <span class="pre">ny,</span> <span class="pre">nz)</span></code>.</p></li>
+<li><p>You can use <code class="code docutils literal notranslate"><span class="pre">reversed(grid.shape)</span></code> to pass the dimensions.</p></li>
+<li><p>The output of the <code class="code docutils literal notranslate"><span class="pre">marching_cubes</span></code> function are three arrays, corresponding to the
+vertices, the normals, and the indices of the isosurface. The isosurface corresponds to
+a number of linked triangles (polygons) whose vertices are stored in the <code class="code docutils literal notranslate"><span class="pre">vertices</span></code>
+array. For each vertex, the normal vector is encoded in the <code class="code docutils literal notranslate"><span class="pre">normals</span></code> array. Finally,
+the triangles are stored as a triplet of indices in the <code class="code docutils literal notranslate"><span class="pre">indices</span></code> array. These indices
+refer to the position in the <code class="code docutils literal notranslate"><span class="pre">vertices</span></code> and <code class="code docutils literal notranslate"><span class="pre">normals</span></code> array. Because multiple
+triangles can use the same vertices, this is an efficient way to store the isosurface.</p></li>
+<li><p>One rarely needs to perform any operations on the <code class="code docutils literal notranslate"><span class="pre">vertices</span></code>, <code class="code docutils literal notranslate"><span class="pre">normals</span></code> and
+<code class="code docutils literal notranslate"><span class="pre">indices</span></code> arrays. Typically, these arrays are constructed and immediately relayed
+to the <code class="code docutils literal notranslate"><span class="pre">write_ply</span></code> function to store them as a file which can be used in another
+program.</p></li>
+</ul>
+</section>
+</dd></dl>
+
 </section>
 <section id="storing-the-isosurface">
 <h2>Storing the isosurface<a class="headerlink" href="#storing-the-isosurface" title="Link to this heading"></a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="pytessel.PyTessel.write_ply">
+<span class="sig-prename descclassname"><span class="pre">PyTessel.</span></span><span class="sig-name descname"><span class="pre">write_ply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self,</span> <span class="pre">unicode</span> <span class="pre">filename:</span> <span class="pre">str,</span> <span class="pre">vertices:</span> <span class="pre">npt.NDArray[np.float64],</span> <span class="pre">normals:</span> <span class="pre">npt.NDArray[np.float64],</span> <span class="pre">indices:</span> <span class="pre">npt.NDArray[np.uint32]</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pytessel.PyTessel.write_ply" title="Link to this definition"></a></dt>
+<dd><p>Stores isosurface as .ply file</p>
+<section id="id2">
+<h3>Parameters<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>filename<span class="classifier">str</span></dt><dd><p>Path to file</p>
+</dd>
+<dt>vertices<span class="classifier">Iterable of floats</span></dt><dd><p>Array of vertices</p>
+</dd>
+<dt>normals<span class="classifier">Iterable of floats</span></dt><dd><p>Array of normals</p>
+</dd>
+<dt>indices<span class="classifier">Iterable of ints</span></dt><dd><p>Array of triangle indices</p>
+</dd>
+</dl>
+</section>
+<section id="id3">
+<h3>Returns<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<p>None</p>
+</section>
+<section id="id4">
+<h3>Notes<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>This function is designed to be used with <code class="code docutils literal notranslate"><span class="pre">marching_cubes</span></code>. One can directly relay the output
+of <code class="code docutils literal notranslate"><span class="pre">marching_cube</span></code> as the input for <code class="code docutils literal notranslate"><span class="pre">write_ply</span></code>.</p></li>
+</ul>
+</section>
+</dd></dl>
+
 </section>
 </section>
 
