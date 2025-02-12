@@ -8,7 +8,6 @@ ROOT = os.path.dirname(__file__)
 def main():
     version_versionpy = get_version_versionpy()
     version_metayaml = get_version_metayaml()
-    version_metayaml = get_version_projecttoml()
     
     print('Version strings found:')
     print(version_versionpy)
