@@ -20,22 +20,6 @@ else:
         print(r"Unable to find version in %s" % (VERSIONFILE,))
         raise RuntimeError(r"If %s.py exists, it is required to be well-formed" % (VERSIONFILE,))
 
-PKG = "pytessel"
-VERSIONFILE = os.path.join(os.path.dirname(__file__), PKG, "_version.py")
-verstr = "unknown"
-try:
-    verstrline = open(VERSIONFILE, "rt").read()
-except EnvironmentError:
-    pass # Okay, there is no version file.
-else:
-    VSRE = r"^__version__ = ['\"]([^'\"]*)['\"]"
-    mo = re.search(VSRE, verstrline, re.M)
-    if mo:
-        verstr = mo.group(1)
-    else:
-        print(r"Unable to find version in %s" % (VERSIONFILE,))
-        raise RuntimeError(r"If %s.py exists, it is required to be well-formed" % (VERSIONFILE,))
-
 def find_windows_versions():
     """
     Autofind the msvc and winkit versions; this is mainly used for local development / compilation
@@ -114,7 +98,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name=PKG,
-    version="1.2.0",
+    version=verstr,
     author="Ivo Filot",
     author_email="ivo@ivofilot.nl",
     description="Python package for building isosurfaces from 3D scalar fields",
