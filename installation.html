@@ -49,9 +49,7 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#windows-anaconda">Windows / Anaconda</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#linux-pypi">Linux / PyPI</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pypi">PyPI</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="background.html">Background</a></li>
@@ -80,63 +78,11 @@
              
   <section id="index-0">
 <span id="installation"></span><span id="id1"></span><h1>Installation<a class="headerlink" href="#index-0" title="Link to this heading"></a></h1>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>For Windows users with relatively little experience with Python, we warmly
-recommend to use the <a class="reference external" href="https://www.anaconda.com/products/distribution">Anaconda distribution</a>.
-Anaconda is an all-in-one package containing the Python compiler,
-an integrated desktop environment (Spyder) and plenty of useful Python
-packages such as numpy and matplotlib.</p>
-</div>
-<p><strong class="program">PyTessel</strong> is distributed via both Anaconda package as well as PyPI. For
-Windows, it is recommended to install <strong class="program">PyTessel</strong> via Anaconda, while
-for Linux, we recommend to use PyPI.</p>
-<section id="windows-anaconda">
-<h2>Windows / Anaconda<a class="headerlink" href="#windows-anaconda" title="Link to this heading"></a></h2>
-<p>To install <strong class="program">PyTessel</strong> under Windows, open an Anaconda Prompt window
-and run:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">ifilot</span> <span class="n">pytessel</span>
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Sometimes Anaconda is unable to resolve the package dependencies. This can
-be caused by a broken environment. An easy solution is to create a new
-environment. See the “Troubleshooting” section at the end of this page
-for more information.</p>
-</div>
-</section>
-<section id="linux-pypi">
-<h2>Linux / PyPI<a class="headerlink" href="#linux-pypi" title="Link to this heading"></a></h2>
-<p>To install <strong class="program">PyTessel</strong> systemwide, run:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pytessel</span>
-</pre></div>
-</div>
-<p>or to install <strong class="program">PyTessel</strong> only for the current user, run:</p>
+<p><strong class="program">PyTessel</strong> is distributed via PyPI.</p>
+<section id="pypi">
+<h2>PyPI<a class="headerlink" href="#pypi" title="Link to this heading"></a></h2>
+<p>To install <strong class="program">PyTessel</strong> only for the current user, run:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pytessel</span>
-</pre></div>
-</div>
-</section>
-<section id="troubleshooting">
-<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
-<p>The Anaconda packaging system can sometimes be quite finicky and sometimes
-packages conflict with each other. A way to work around this issue is to create
-a separate environment and only use that environment for the electronic
-resources associated with this project.</p>
-<p>To create the new environment (called eoesc-env), run:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">eoesc</span><span class="o">-</span><span class="n">env</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.9</span>
-</pre></div>
-</div>
-<p>Next, open the environment with:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">activate</span> <span class="n">eoesc</span><span class="o">-</span><span class="n">env</span>
-</pre></div>
-</div>
-<p>and install the required packages:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">ifilot</span> <span class="n">pyqint</span> <span class="n">pytessel</span>
-</pre></div>
-</div>
-<p>Finally, you can install the IDE Spyder using:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">spyder</span> <span class="n">matplotlib</span> <span class="n">scipy</span> <span class="n">pandas</span> <span class="n">openpyxl</span>
 </pre></div>
 </div>
 </section>

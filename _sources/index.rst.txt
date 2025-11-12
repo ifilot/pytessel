@@ -1,8 +1,6 @@
 PyTessel: isosurface generation tool
 ====================================
 
-.. image:: https://anaconda.org/ifilot/pytessel/badges/version.svg
-   :target: https://anaconda.org/ifilot/pytessel
 .. image:: https://img.shields.io/pypi/v/pytessel?color=green
    :target: https://pypi.org/project/pytessel/
 .. image:: https://img.shields.io/badge/License-GPLv3-blue.svg
