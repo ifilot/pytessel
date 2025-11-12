@@ -2,7 +2,6 @@
 
 [![CI](https://github.com/ifilot/pytessel/actions/workflows/build_conda.yml/badge.svg)](https://github.com/ifilot/pytessel/actions/workflows/build_Conda.yml)
 [![CI](https://github.com/ifilot/pytessel/actions/workflows/build_wheels.yml/badge.svg)](https://github.com/ifilot/pytessel/actions/workflows/build_wheels.yml)
-[![Anaconda-Server Badge](https://anaconda.org/ifilot/pytessel/badges/version.svg)](https://anaconda.org/ifilot/pytessel)
 [![PyPI](https://img.shields.io/pypi/v/pytessel?color=green)](https://pypi.org/project/pytessel/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
@@ -11,20 +10,6 @@
 Python package for building isosurfaces from 3D scalar fields
 
 ## Installation
-
-### Anaconda
-
-[![Anaconda version](https://anaconda.org/ifilot/pytessel/badges/version.svg)](https://anaconda.org/ifilot/pytessel)
-[![Anaconda last release](https://anaconda.org/ifilot/pytessel/badges/latest_release_date.svg)](https://anaconda.org/ifilot/pytessel)
-[![Anaconda platforms](https://anaconda.org/ifilot/pytessel/badges/platforms.svg)](https://anaconda.org/ifilot/pytessel)
-[![Anaconda downloads](https://anaconda.org/ifilot/pytessel/badges/downloads.svg)](https://anaconda.org/ifilot/pytessel)
-
-
-```
-conda install -c ifilot pyqint
-```
-
-### PyPi
 
 [![PyPI](https://img.shields.io/pypi/v/pytessel?color=green)](https://pypi.org/project/pytessel/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/pypi)](https://pypi.org/project/pytessel/)
