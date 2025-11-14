@@ -125,14 +125,22 @@ unsigned int IsoSurfaceMesh::get_index_vertex(const Vec3 v) {
     auto got = this->vertices_map.find(v);
     if(got != this->vertices_map.end()) {
         return got->second;
-    } else {
-        this->vertices_map.emplace(v, this->vertices_map.size());
-        return this->get_index_vertex(v);
     }
+
+    const unsigned int id = vertices_map.size();
+    vertices_map.emplace(v, id);
+    return id;
 }
 
 std::vector<float> IsoSurfaceMesh::get_vertices() const {
-    return std::vector<float>(&this->vertices[0].x, &this->vertices[0].x + this->vertices.size() * 3);
+    std::vector<float> out;
+    out.reserve(vertices.size() * 3);
+    for (const auto& v : vertices) {
+        out.push_back(v.x);
+        out.push_back(v.y);
+        out.push_back(v.z);
+    }
+    return out;
 }
 
 std::vector<float> IsoSurfaceMesh::get_normals() const {
