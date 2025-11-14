@@ -55,10 +55,10 @@ struct KeyFuncs
  */
 class IsoSurfaceMesh{
 private:
-    std::unordered_map<Vec3, unsigned int, KeyFuncs, KeyFuncs> vertices_map;
+    std::unordered_map<Vec3, size_t, KeyFuncs, KeyFuncs> vertices_map;
     std::vector<Vec3> vertices;
     std::vector<Vec3> normals;
-    std::vector<unsigned int> indices;
+    std::vector<size_t> indices;
 
     std::shared_ptr<const ScalarField> sf;
     std::shared_ptr<const IsoSurface> is;
@@ -77,7 +77,7 @@ public:
 
     IsoSurfaceMesh(const std::vector<float>& vertices,
                    const std::vector<float>& normals,
-                   const std::vector<unsigned int>& indices);
+                   const std::vector<size_t>& indices);
 
     /**
      * @brief      construct surface mesh
@@ -90,7 +90,7 @@ public:
 
     std::vector<float> get_normals() const;
 
-    const std::vector<unsigned int>& get_indices() const;
+    const std::vector<size_t>& get_indices() const;
 
 private:
     /**
@@ -100,5 +100,5 @@ private:
      *
      * @return     the index
      */
-    unsigned int get_index_vertex(const Vec3 v);
+    size_t get_index_vertex(const Vec3 v);
 };

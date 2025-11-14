@@ -41,7 +41,7 @@ void IsoSurfaceMesh::construct_mesh(bool center_mesh) {
    // grab center
     this->center = this->sf->get_mat_unitcell() * Vec3(0.5, 0.5, 0.5);
 
-    for(unsigned int i=0; i<this->is->get_triangles_ptr()->size(); i++) {
+    for(size_t i=0; i<this->is->get_triangles_ptr()->size(); i++) {
         // load all index vertices in a map; this operation needs to be done, else a SEGFAULT
         // will be thrown further down the lines
         this->get_index_vertex(is->get_triangles_ptr()->at(i).p1);
@@ -60,7 +60,7 @@ void IsoSurfaceMesh::construct_mesh(bool center_mesh) {
 
     // calculate normal vectors
     #pragma omp parallel for schedule(static)
-    for(unsigned int i=0; i<this->vertices.size(); i++) {
+    for(size_t i=0; i<this->vertices.size(); i++) {
         // get derivatives
         double dx0 = sf->get_value_interp(this->vertices[i].x - dev, this->vertices[i].y, this->vertices[i].z);
         double dx1 = sf->get_value_interp(this->vertices[i].x + dev, this->vertices[i].y, this->vertices[i].z);
@@ -80,11 +80,11 @@ void IsoSurfaceMesh::construct_mesh(bool center_mesh) {
     }
 
     // build indices in right orientation based on face normal
-    for(unsigned int i=0; i<this->is->get_triangles_ptr()->size(); i++) {
+    for(size_t i=0; i<this->is->get_triangles_ptr()->size(); i++) {
         // calculate face normal
-        unsigned int id1 = this->get_index_vertex(is->get_triangles_ptr()->at(i).p1);
-        unsigned int id2 = this->get_index_vertex(is->get_triangles_ptr()->at(i).p2);
-        unsigned int id3 = this->get_index_vertex(is->get_triangles_ptr()->at(i).p3);
+        size_t id1 = this->get_index_vertex(is->get_triangles_ptr()->at(i).p1);
+        size_t id2 = this->get_index_vertex(is->get_triangles_ptr()->at(i).p2);
+        size_t id3 = this->get_index_vertex(is->get_triangles_ptr()->at(i).p3);
 
         // calculate the orientation of the face with respect to the normal
         const Vec3 face_normal = (this->normals[id1] + this->normals[id2] + this->normals[id3]) / 3.0f;
@@ -108,7 +108,7 @@ void IsoSurfaceMesh::construct_mesh(bool center_mesh) {
         Vec3 sum = this->sf->get_mat_unitcell() * Vec3(0.5f, 0.5f, 0.5f);
 
         #pragma omp parallel for
-        for(unsigned int i=0; i<this->vertices.size(); i++) {
+        for(size_t i=0; i<this->vertices.size(); i++) {
            this->vertices[i] -= sum;
         }
     }
@@ -121,13 +121,13 @@ void IsoSurfaceMesh::construct_mesh(bool center_mesh) {
  *
  * @return     the index
  */
-unsigned int IsoSurfaceMesh::get_index_vertex(const Vec3 v) {
+size_t IsoSurfaceMesh::get_index_vertex(const Vec3 v) {
     auto got = this->vertices_map.find(v);
     if(got != this->vertices_map.end()) {
         return got->second;
     }
 
-    const unsigned int id = vertices_map.size();
+    const size_t id = vertices_map.size();
     vertices_map.emplace(v, id);
     return id;
 }
@@ -147,6 +147,6 @@ std::vector<float> IsoSurfaceMesh::get_normals() const {
     return std::vector<float>(&this->normals[0].x, &this->normals[0].x + this->normals.size() * 3);
 }
 
-const std::vector<unsigned int>& IsoSurfaceMesh::get_indices() const {
+const std::vector<size_t>& IsoSurfaceMesh::get_indices() const {
     return this->indices;
 }

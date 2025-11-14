@@ -31,8 +31,8 @@ cdef extern from "isosurface.h":
 cdef extern from "isosurface_mesh.h":
     cdef cppclass IsoSurfaceMesh:
         IsoSurfaceMesh(const shared_ptr[ScalarField *] _sf, const shared_ptr[IsoSurface *] _is) except +
-        IsoSurfaceMesh(vector[float], vector[float], vector[uint]) except +
+        IsoSurfaceMesh(vector[float], vector[float], vector[size_t]) except +
         void construct_mesh(bool) except+
         vector[float] get_vertices() except+
         vector[float] get_normals() except+
-        vector[uint] get_indices() except+
+        vector[size_t] get_indices() except+

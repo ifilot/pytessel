@@ -38,7 +38,7 @@
  *
  */
 
-Cube::Cube(unsigned int _i, unsigned int _j, unsigned int _k, const ScalarField &_vp) {
+Cube::Cube(size_t _i, size_t _j, size_t _k, const ScalarField &_vp) {
 
     this->i = _i;
     this->j = _j;
@@ -67,15 +67,15 @@ void Cube::set_cube_index(float _isovalue) {
     if (this->values[7] < _isovalue) this->cubidx |= (1 << 7);
 }
 
-unsigned int Cube::get_cube_index() const {
+size_t Cube::get_cube_index() const {
     return this->cubidx;
 }
 
-float Cube::get_value_from_vertex(unsigned int _p) const {
+float Cube::get_value_from_vertex(size_t _p) const {
     return this->values[_p];
 }
 
-Vec3 Cube::get_position_from_vertex(unsigned int _p) const {
+Vec3 Cube::get_position_from_vertex(size_t _p) const {
     Vec3 c;
     if(_p == 0) {
         c.x = (float)this->i;
@@ -122,8 +122,8 @@ Vec3 Cube::get_position_from_vertex(unsigned int _p) const {
  *    TETRAHEDRON    *
  *********************/
 
-Tetrahedron::Tetrahedron(unsigned int _i, unsigned int _j, unsigned int _k,
-    const ScalarField &_vp, unsigned int _pos) {
+Tetrahedron::Tetrahedron(size_t _i, size_t _j, size_t _k,
+    const ScalarField &_vp, size_t _pos) {
     this->i = _i;
     this->j = _j;
     this->k = _k;
@@ -216,15 +216,15 @@ void Tetrahedron::set_tetrahedron_index(float _isovalue) {
     if (this->values[3] < _isovalue) this->tetidx |= (1 << 3);
 }
 
-unsigned int Tetrahedron::get_tetrahedron_index() const {
+size_t Tetrahedron::get_tetrahedron_index() const {
     return this->tetidx;
 }
 
-float Tetrahedron::get_value_from_vertex(unsigned int _p) const {
+float Tetrahedron::get_value_from_vertex(size_t _p) const {
     return this->values[_p];
 }
 
-const Vec3& Tetrahedron::get_position_from_vertex(unsigned int _p) const {
+const Vec3& Tetrahedron::get_position_from_vertex(size_t _p) const {
     return pos[_p];
 }
 
@@ -244,7 +244,7 @@ void Triangle::transform_to_real(const ScalarField &_vp) {
     p3 = _vp.grid_to_realspace(p3.x, p3.y, p3.z);
 }
 
-float Triangle::get_x(unsigned int i) const {
+float Triangle::get_x(size_t i) const {
     switch(i) {
         case 0:
             return p1.x;
@@ -257,7 +257,7 @@ float Triangle::get_x(unsigned int i) const {
     }
 }
 
-float Triangle::get_y(unsigned int i) const {
+float Triangle::get_y(size_t i) const {
     switch(i) {
         case 0:
             return p1.y;
@@ -270,7 +270,7 @@ float Triangle::get_y(unsigned int i) const {
     }
 }
 
-float Triangle::get_z(unsigned int i) const {
+float Triangle::get_z(size_t i) const {
     switch(i) {
         case 0:
             return p1.z;
@@ -309,7 +309,7 @@ void IsoSurface::marching_cubes(float _isovalue) {
     this->construct_triangles_from_cubes(_isovalue);
 
     #pragma omp parallel for
-    for(unsigned int i=0; i < this->triangles.size(); i++) {
+    for(size_t i=0; i < this->triangles.size(); i++) {
         triangles[i].transform_to_real(*this->vp_ptr);
     }
 }
@@ -342,13 +342,13 @@ void IsoSurface::sample_grid_with_cubes(float _isovalue) {
     std::mutex push_back_mutex;
 
     #pragma omp parallel for schedule(dynamic)
-    for(unsigned int i = 0; i < this->grid_dimensions[2] - 1; i++) {
-        for(unsigned int j = 0; j < this->grid_dimensions[1] - 1; j++) {
-            for(unsigned int k = 0; k < this->grid_dimensions[0] - 1; k++) {
+    for(size_t i = 0; i < this->grid_dimensions[2] - 1; i++) {
+        for(size_t j = 0; j < this->grid_dimensions[1] - 1; j++) {
+            for(size_t k = 0; k < this->grid_dimensions[0] - 1; k++) {
                 Cube cub(k, j, i, *this->vp_ptr);
                 cub.set_cube_index(_isovalue);
-                if(!(cub.get_cube_index() == (unsigned int)0 ||
-                    cub.get_cube_index() == (unsigned int)255)) {
+                if(!(cub.get_cube_index() == (size_t)0 ||
+                    cub.get_cube_index() == (size_t)255)) {
                     push_back_mutex.lock();
                     this->cube_table.push_back(cub);
                     push_back_mutex.unlock();
@@ -359,14 +359,14 @@ void IsoSurface::sample_grid_with_cubes(float _isovalue) {
 }
 
 void IsoSurface::sample_grid_with_tetrahedra(float _isovalue) {
-    for(unsigned int i = 0; i < this->grid_dimensions[2] - 1; i++) {
-        for(unsigned int j = 0; j < this->grid_dimensions[1] - 1; j++) {
-            for(unsigned int k = 0; k < this->grid_dimensions[0] - 1; k++) {
-                for(unsigned int l=0; l<6; l++) {
+    for(size_t i = 0; i < this->grid_dimensions[2] - 1; i++) {
+        for(size_t j = 0; j < this->grid_dimensions[1] - 1; j++) {
+            for(size_t k = 0; k < this->grid_dimensions[0] - 1; k++) {
+                for(size_t l=0; l<6; l++) {
                     Tetrahedron tet(k, j, i, *this->vp_ptr, l);
                     tet.set_tetrahedron_index(_isovalue);
-                    if(!(tet.get_tetrahedron_index() == (unsigned int)0 ||
-                             tet.get_tetrahedron_index() == (unsigned int)15)) {
+                    if(!(tet.get_tetrahedron_index() == (size_t)0 ||
+                             tet.get_tetrahedron_index() == (size_t)15)) {
                         this->tetrahedra_table.push_back(tet);
                     }
                 }
@@ -379,7 +379,7 @@ void IsoSurface::construct_triangles_from_cubes(float _isovalue) {
     std::mutex push_back_mutex;
 
     #pragma omp parallel for schedule(dynamic)
-    for(unsigned int i=0; i < cube_table.size(); i++) {
+    for(size_t i=0; i < cube_table.size(); i++) {
 
         uint8_t cubeindex = cube_table[i].get_cube_index();
         Vec3 vertices_list[12];
@@ -425,7 +425,7 @@ void IsoSurface::construct_triangles_from_cubes(float _isovalue) {
                 this->interpolate_from_cubes(cube_table[i], 3, 7, _isovalue);
 
         /* finally construct the triangles using the triangle table */
-        for(unsigned int i=0; triangle_table[cubeindex][i] != -1; i += 3) {
+        for(size_t i=0; triangle_table[cubeindex][i] != -1; i += 3) {
             Triangle triangle(
                     vertices_list[triangle_table[cubeindex][i]],
                     vertices_list[triangle_table[cubeindex][i+1]],
@@ -439,9 +439,9 @@ void IsoSurface::construct_triangles_from_cubes(float _isovalue) {
 }
 
 void IsoSurface::construct_triangles_from_tetrahedra(float _isovalue) {
-    for(unsigned int i=0; i < tetrahedra_table.size(); i++) {
+    for(size_t i=0; i < tetrahedra_table.size(); i++) {
 
-        unsigned int tetidx = tetrahedra_table[i].get_tetrahedron_index();
+        size_t tetidx = tetrahedra_table[i].get_tetrahedron_index();
         Vec3 p[3];
 
         switch(tetidx) {
@@ -506,8 +506,8 @@ void IsoSurface::construct_triangles_from_tetrahedra(float _isovalue) {
     }
 }
 
-Vec3 IsoSurface::interpolate_from_cubes(const Cube &_cub, unsigned int _p1,
-    unsigned int _p2, float _isovalue) {
+Vec3 IsoSurface::interpolate_from_cubes(const Cube &_cub, size_t _p1,
+    size_t _p2, float _isovalue) {
     float v1 = _cub.get_value_from_vertex(_p1);
     float v2 = _cub.get_value_from_vertex(_p2);
 
@@ -534,7 +534,7 @@ Vec3 IsoSurface::interpolate_from_cubes(const Cube &_cub, unsigned int _p1,
 }
 
 Vec3 IsoSurface::interpolate_from_tetrahedra(const Tetrahedron &_tet,
-    unsigned int _p1, unsigned int _p2, float _isovalue) {
+    size_t _p1, size_t _p2, float _isovalue) {
     float v1 = _tet.get_value_from_vertex(_p1);
     float v2 = _tet.get_value_from_vertex(_p2);
 

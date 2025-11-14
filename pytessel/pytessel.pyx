@@ -15,7 +15,7 @@ cdef class PyTessel:
         pass
 
     @cython.embedsignature(True)
-    def marching_cubes(self, vector[float] grid, vector[uint] dimensions, vector[float] unitcell, float isovalue) -> \
+    def marching_cubes(self, vector[float] grid, vector[size_t] dimensions, vector[float] unitcell, float isovalue) -> \
             (npt.NDArray[np.float64], npt.NDArray[np.float64], npt.NDArray[np.float64]):
         """
         Perform marching cubes algorithm to generate isosurface
