@@ -1,1 +1,6 @@
-__version__ = "1.2.4"
+from importlib.metadata import version, PackageNotFoundError
+
+try:
+    __version__ = version("pytessel")
+except PackageNotFoundError:
+    __version__ = "0.0.0"  # optional fallback

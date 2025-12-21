@@ -29,7 +29,7 @@
 
 class ScalarField{
 private:
-    std::array<unsigned int, 3> grid_dimensions;
+    std::array<size_t, 3> grid_dimensions;
     std::vector<float> grid;
     mat33 unitcell;
     mat33 unitcell_inverse;
@@ -44,7 +44,7 @@ public:
      * @param[in]  _is_bin          is binary file
      */
     ScalarField(const std::vector<float>& grid,
-                const std::vector<unsigned int>& dimensions,
+                const std::vector<size_t>& dimensions,
                 const std::vector<float>& unitcell);
 
      /*
@@ -61,7 +61,7 @@ public:
      */
     float get_value_interp(float x, float y, float z) const;
 
-    float get_value(unsigned int i, unsigned int j, unsigned int k) const;
+    float get_value(size_t i, size_t j, size_t k) const;
 
     Vec3 grid_to_realspace(float i, float j, float k) const;
 
@@ -69,7 +69,7 @@ public:
 
     Vec3 realspace_to_direct(float x, float y, float z) const;
 
-    void copy_grid_dimensions(unsigned int _grid_dimensions[]) const;
+    void copy_grid_dimensions(size_t _grid_dimensions[]) const;
 
     float get_max() const;
 

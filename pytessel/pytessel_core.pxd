@@ -1,20 +1,11 @@
-# distutils: language = c++
+# cython: language_level=3
+# cython: language=c++
+# cython: module_name=pytessel_core
+# cython: c_string_type=unicode, c_string_encoding=utf8
 
 from libcpp.vector cimport vector
 from libcpp.string cimport string
 from libcpp.memory cimport shared_ptr
-
-# IsoSurface
-cdef extern from "isosurface.cpp":
-    pass
-
-# Isosurface Mesh
-cdef extern from "isosurface_mesh.cpp":
-    pass
-
-# Scalar Field
-cdef extern from "scalar_field.cpp":
-    pass
 
 # Scalar Field class
 cdef extern from "scalar_field.h":
@@ -31,8 +22,8 @@ cdef extern from "isosurface.h":
 cdef extern from "isosurface_mesh.h":
     cdef cppclass IsoSurfaceMesh:
         IsoSurfaceMesh(const shared_ptr[ScalarField *] _sf, const shared_ptr[IsoSurface *] _is) except +
-        IsoSurfaceMesh(vector[float], vector[float], vector[uint]) except +
+        IsoSurfaceMesh(vector[float], vector[float], vector[size_t]) except +
         void construct_mesh(bool) except+
         vector[float] get_vertices() except+
         vector[float] get_normals() except+
-        vector[uint] get_indices() except+
+        vector[size_t] get_indices() except+

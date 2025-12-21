@@ -48,21 +48,21 @@
 
 class Cube{
 private:
-    unsigned int i,j,k;                           // starting position of the cube
+    size_t i,j,k;                           // starting position of the cube
     float values[8];                              // vector holding cube values
-    unsigned int cubidx;                          // cubeindex (whether there is an intersection)
+    size_t cubidx;                          // cubeindex (whether there is an intersection)
 
 public:
     Cube();
 
-    Cube(unsigned int _i, unsigned int _j, unsigned int _k, const ScalarField &_vp);
+    Cube(size_t _i, size_t _j, size_t _k, const ScalarField &_vp);
 
     void set_cube_index(float _isovalue);
 
-    unsigned int get_cube_index() const;
+    size_t get_cube_index() const;
 
-    float get_value_from_vertex(unsigned int _p) const;
-    Vec3 get_position_from_vertex(unsigned int _p) const;
+    float get_value_from_vertex(size_t _p) const;
+    Vec3 get_position_from_vertex(size_t _p) const;
 };
 
 /*
@@ -85,21 +85,21 @@ public:
 
 class Tetrahedron{
 private:
-    unsigned int i,j,k;     //!< starting position of the cube
+    size_t i,j,k;     //!< starting position of the cube
     float values[4];
-    unsigned int tetidx;    //!< cubeindex (whether there is an intersection)
+    size_t tetidx;    //!< cubeindex (whether there is an intersection)
     Vec3 pos[4];       //!< coordinates of the gridpoints
 
 public:
-    Tetrahedron(unsigned int _i, unsigned int _j, unsigned int _k, const ScalarField &_vp, unsigned int _pos);
+    Tetrahedron(size_t _i, size_t _j, size_t _k, const ScalarField &_vp, size_t _pos);
 
     void set_tetrahedron_index(float _isovalue);
 
-    unsigned int get_tetrahedron_index() const;
+    size_t get_tetrahedron_index() const;
 
-    float get_value_from_vertex(unsigned int _p) const;
+    float get_value_from_vertex(size_t _p) const;
 
-    const Vec3& get_position_from_vertex(unsigned int _p) const;
+    const Vec3& get_position_from_vertex(size_t _p) const;
 };
 
 class Triangle{
@@ -112,11 +112,11 @@ public:
 
     void transform_to_real(const ScalarField &_vp);
 
-    float get_x(unsigned int i) const;
+    float get_x(size_t i) const;
 
-    float get_y(unsigned int i) const;
+    float get_y(size_t i) const;
 
-    float get_z(unsigned int i) const;
+    float get_z(size_t i) const;
 };
 
 /**
@@ -130,7 +130,7 @@ private:
     std::vector<Tetrahedron> tetrahedra_table;
     std::vector<Triangle> triangles;
     std::shared_ptr<ScalarField> vp_ptr;        // pointer to ScalarField obj
-    unsigned int grid_dimensions[3];
+    size_t grid_dimensions[3];
     float isovalue;                             // isovalue setting
 
 public:
@@ -175,6 +175,6 @@ private:
     void sample_grid_with_tetrahedra(float _isovalue);
     void construct_triangles_from_cubes(float _isovalue);
     void construct_triangles_from_tetrahedra(float _isovalue);
-    Vec3 interpolate_from_cubes(const Cube &_cub, unsigned int _p1, unsigned int _p2, float _isovalue);
-    Vec3 interpolate_from_tetrahedra(const Tetrahedron &_cub, unsigned int _p1, unsigned int _p2, float _isovalue);
+    Vec3 interpolate_from_cubes(const Cube &_cub, size_t _p1, size_t _p2, float _isovalue);
+    Vec3 interpolate_from_tetrahedra(const Tetrahedron &_cub, size_t _p1, size_t _p2, float _isovalue);
 };

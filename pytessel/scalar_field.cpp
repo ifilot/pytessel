@@ -27,13 +27,13 @@
  * @param[in]  _flag_is_locpot  whether this file is a locpot
  */
 ScalarField::ScalarField(const std::vector<float>& _grid,
-                         const std::vector<unsigned int>& _dimensions,
+                         const std::vector<size_t>& _dimensions,
                          const std::vector<float>& _unitcell) {
 
     this->grid = _grid;
     this->grid_dimensions = {_dimensions[0], _dimensions[1], _dimensions[2]};
-    for(unsigned int i=0; i<3; i++) {
-        for(unsigned int j=0; j<3; j++) {
+    for(size_t i=0; i<3; i++) {
+        for(size_t j=0; j<3; j++) {
             this->unitcell[i][j] = _unitcell[i*3 + j];
         }
     }
@@ -126,8 +126,8 @@ bool ScalarField::is_inside(float x, float y, float z) const {
  * This is a convenience function for the get_value_interp() function
  *
  */
-float ScalarField::get_value(unsigned int i, unsigned int j, unsigned int k) const {
-    unsigned int idx = k * this->grid_dimensions[0] * this->grid_dimensions[1] +
+float ScalarField::get_value(size_t i, size_t j, size_t k) const {
+    size_t idx = k * this->grid_dimensions[0] * this->grid_dimensions[1] +
                        j * this->grid_dimensions[0] +
                        i;
     return this->grid[idx];
@@ -181,8 +181,8 @@ Vec3 ScalarField::realspace_to_grid(float i, float j, float k) const {
     return g;
 }
 
-void ScalarField::copy_grid_dimensions(unsigned int _grid_dimensions[]) const {
-    for(unsigned int i=0; i<3; i++) {
+void ScalarField::copy_grid_dimensions(size_t _grid_dimensions[]) const {
+    for(size_t i=0; i<3; i++) {
         _grid_dimensions[i] = this->grid_dimensions[i];
     }
 }
@@ -217,8 +217,8 @@ void ScalarField::inverse(const mat33& mat, mat33* invmat) {
 std::vector<float> ScalarField::get_unitcell_vf() const {
     std::vector<float> ans(9,0.0);
 
-    for(unsigned int i=0; i<3; i++) {
-        for(unsigned int j=0; j<3; j++) {
+    for(size_t i=0; i<3; i++) {
+        for(size_t j=0; j<3; j++) {
             ans[i*3 + j] = this->unitcell[i][j];
         }
     }
@@ -229,8 +229,8 @@ std::vector<float> ScalarField::get_unitcell_vf() const {
 std::vector<float> ScalarField::get_unitcell_inverse() const {
     std::vector<float> ans(9,0.0);
 
-    for(unsigned int i=0; i<3; i++) {
-        for(unsigned int j=0; j<3; j++) {
+    for(size_t i=0; i<3; i++) {
+        for(size_t j=0; j<3; j++) {
             ans[i*3 + j] = this->unitcell_inverse[i][j];
         }
     }
