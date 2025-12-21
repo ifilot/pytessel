@@ -14,10 +14,10 @@ on:
       - published
 
 env:
-  # Build `universal2` and `arm64` wheels on an Intel runner.
-  # Note that the `arm64` wheel and the `arm64` part of the `universal2`
-  # wheel cannot be tested in this configuration.
   CIBW_ARCHS_MACOS: "x86_64 arm64"
+  CIBW_ARCHS_WINDOWS: "AMD64"
+  CIBW_SKIP: "cp38-*"
+  CIBW_BUILD_VERBOSITY: 1
 
 jobs:
 
