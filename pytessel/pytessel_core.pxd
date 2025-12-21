@@ -1,20 +1,11 @@
-# distutils: language = c++
+# cython: language_level=3
+# cython: language=c++
+# cython: module_name=pytessel_core
+# cython: c_string_type=unicode, c_string_encoding=utf8
 
 from libcpp.vector cimport vector
 from libcpp.string cimport string
 from libcpp.memory cimport shared_ptr
-
-# IsoSurface
-cdef extern from "isosurface.cpp":
-    pass
-
-# Isosurface Mesh
-cdef extern from "isosurface_mesh.cpp":
-    pass
-
-# Scalar Field
-cdef extern from "scalar_field.cpp":
-    pass
 
 # Scalar Field class
 cdef extern from "scalar_field.h":

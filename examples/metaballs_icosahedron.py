@@ -29,6 +29,7 @@ def main():
                                                              isovalue)
    
         pytessel.write_ply('icosahedron_%03i.ply' % nrpoints, vertices, normals, indices)
+        pytessel.write_stl('icosahedron_%03i.stl' % nrpoints, vertices, normals, indices)
         
     # perform an additional test wherein an isosurface is generated using a
     # field for which the grid dimensions differ per cartesian direction
