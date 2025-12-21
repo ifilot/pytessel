@@ -21,23 +21,91 @@ env:
 
 jobs:
 
+  # --------------------------------------------------------------------------
+  # Build wheels for all OS × Python versions
+  # --------------------------------------------------------------------------
   build_wheels:
-    name: Build wheels on ${{ matrix.os }}
+    name: Build wheels (${{ matrix.os }} / Python ${{ matrix.python-version }})
     runs-on: ${{ matrix.os }}
+
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          # ---------------- Ubuntu ----------------
+          - os: ubuntu-latest
+            python-version: "3.9"
+            tag: cp39
+          - os: ubuntu-latest
+            python-version: "3.10"
+            tag: cp310
+          - os: ubuntu-latest
+            python-version: "3.11"
+            tag: cp311
+          - os: ubuntu-latest
+            python-version: "3.12"
+            tag: cp312
+          - os: ubuntu-latest
+            python-version: "3.13"
+            tag: cp313
+          - os: ubuntu-latest
+            python-version: "3.14"
+            tag: cp314
+
+          # ---------------- Windows ----------------
+          - os: windows-latest
+            python-version: "3.9"
+            tag: cp39
+          - os: windows-latest
+            python-version: "3.10"
+            tag: cp310
+          - os: windows-latest
+            python-version: "3.11"
+            tag: cp311
+          - os: windows-latest
+            python-version: "3.12"
+            tag: cp312
+          - os: windows-latest
+            python-version: "3.13"
+            tag: cp313
+          - os: windows-latest
+            python-version: "3.14"
+            tag: cp314
+
+          # ---------------- macOS ----------------
+          - os: macos-latest
+            python-version: "3.9"
+            tag: cp39
+          - os: macos-latest
+            python-version: "3.10"
+            tag: cp310
+          - os: macos-latest
+            python-version: "3.11"
+            tag: cp311
+          - os: macos-latest
+            python-version: "3.12"
+            tag: cp312
+          - os: macos-latest
+            python-version: "3.13"
+            tag: cp313
+          - os: macos-latest
+            python-version: "3.14"
+            tag: cp314
+
+    env:
+      CIBW_BUILD: "${{ matrix.tag }}-*"
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v3.2.1
+        uses: pypa/cibuildwheel@v3.3.0
 
       - uses: actions/upload-artifact@v4
         with:
-          name: wheels-${{ matrix.os }}
-          path: ./wheelhouse/*.whl
+          name: wheels-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: wheelhouse/*.whl
+          if-no-files-found: error
 
   build_sdist:
     name: Build source distribution
