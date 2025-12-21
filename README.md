@@ -9,7 +9,11 @@
 
 PyTessel is a Python package for constructing isosurfaces from 3D scalar fields
 using the marching cubes algorithm. It is designed for scientific visualization,
-computational geometry, and mesh generation workflows.
+computational geometry, and mesh generation workflows. While PyTessel was
+originally developed for rendering molecular orbitals, it is flexible enough to
+tessellate arbitrary scalar fields.
+
+![isosurface](img/isosurface.png)
 
 ## Installation
 
