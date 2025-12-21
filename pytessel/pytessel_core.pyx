@@ -91,7 +91,7 @@ cdef class PyTessel:
 
         return vertices, normals, indices
 
-    def write_ply(
+    def write_ply(self,
         filename: str,
         vertices: npt.NDArray[np.float64],
         normals: npt.NDArray[np.float64],
@@ -152,39 +152,42 @@ cdef class PyTessel:
             f.write(vertex_data.tobytes())
             f.write(face_bytes.tobytes())
 
-    def write_stl(
+    def write_stl(self,
         filename: str,
         vertices: npt.NDArray[np.float64],
+        normals: npt.NDArray[np.float64],
         indices: npt.NDArray[np.uint32],
-        normals: npt.NDArray[np.float64] | None = None,
     ) -> None:
         """
         Write a binary STL file.
 
         Parameters
         ----------
-        vertices : (N, 3)
+        vertices : (N, 3) array of vertex positions
         indices  : (M,) flat array, length multiple of 3
-        normals  : optional (M/3, 3); computed if None
+        normals  : (N, 3) vertex normals
         """
+
+        if vertices.shape != normals.shape:
+            raise ValueError("vertices and normals must have the same shape")
 
         if vertices.shape[1] != 3:
             raise ValueError("vertices must be of shape (N, 3)")
 
-        if len(indices) % 3 != 0:
-            raise ValueError("indices length must be a multiple of 3")
+        if indices.ndim != 1 or len(indices) % 3 != 0:
+            raise ValueError("indices must be a flat array with length multiple of 3")
 
+        # Build triangle vertices: (T, 3, 3)
         triangles = vertices[indices].reshape(-1, 3, 3)
 
-        if normals is None:
-            # Compute face normals
-            v1 = triangles[:, 1] - triangles[:, 0]
-            v2 = triangles[:, 2] - triangles[:, 0]
-            normals = np.cross(v1, v2)
+        # Compute face normals from vertex normals
+        tri_normals = normals[indices].reshape(-1, 3, 3)
+        face_normals = tri_normals.sum(axis=1)
 
-            norm = np.linalg.norm(normals, axis=1)
-            norm[norm == 0] = 1.0
-            normals /= norm[:, None]
+        # Normalize
+        norm = np.linalg.norm(face_normals, axis=1)
+        norm[norm == 0.0] = 1.0
+        face_normals /= norm[:, None]
 
         n_triangles = triangles.shape[0]
 
@@ -194,7 +197,6 @@ cdef class PyTessel:
             f.write(header)
             f.write(np.uint32(n_triangles).tobytes())
 
-            # STL triangle record dtype
             dtype = np.dtype([
                 ("normal", "f4", (3,)),
                 ("v1", "f4", (3,)),
@@ -204,7 +206,7 @@ cdef class PyTessel:
             ])
 
             data = np.empty(n_triangles, dtype=dtype)
-            data["normal"] = normals.astype(np.float32)
+            data["normal"] = face_normals.astype(np.float32)
             data["v1"] = triangles[:, 0].astype(np.float32)
             data["v2"] = triangles[:, 1].astype(np.float32)
             data["v3"] = triangles[:, 2].astype(np.float32)
