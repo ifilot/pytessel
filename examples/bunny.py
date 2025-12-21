@@ -3,10 +3,13 @@ from scipy.ndimage import gaussian_filter
 from pytessel import PyTessel
 import os
 
-def main():
-    output_ply = "bunny.ply"
+ROOT = os.path.dirname(__file__)
 
-    data = np.load("bunny_pointcloud.npz")
+def main():
+    output_ply = os.path.join(ROOT, 'bunny.ply')
+
+    # load data points
+    data = np.load(os.path.join(ROOT, 'bunny_pointcloud.npz'))
     vertices = data["vertices"]
 
     print("Voxelizing...")

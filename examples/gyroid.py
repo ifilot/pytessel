@@ -1,5 +1,8 @@
 import numpy as np
 from pytessel import PyTessel
+import os
+
+ROOT = os.path.dirname(__file__)
 
 def generate_gyroid(
     n=192,
@@ -23,7 +26,7 @@ def generate_gyroid(
 if __name__ == "__main__":
     t = PyTessel()
 
-    n = 192
+    n = 256
     grid = generate_gyroid(n=n, periods=2)
 
     vertices, normals, indices = t.marching_cubes(
@@ -32,8 +35,8 @@ if __name__ == "__main__":
         unitcell=(1.0, 0.0, 0.0,
                   0.0, 1.0, 0.0,
                   0.0, 0.0, 1.0),
-        isovalue=0.0,
+        isovalue=0.01,
     )
 
-    t.write_ply("gyroid.ply", vertices, normals, indices)
-    t.write_stl("gyroid.stl", vertices, normals, indices)
+    t.write_ply(os.path.join(ROOT,"gyroid.ply"), vertices, normals, indices)
+    t.write_stl(os.path.join(ROOT, "gyroid.stl"), vertices, normals, indices)
